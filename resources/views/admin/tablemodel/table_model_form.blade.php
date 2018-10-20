@@ -36,6 +36,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">数据库表注释</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="table_comment"
+                                           value="{{$info['table_comment'] or ''}}" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">表主键</label>
                                 <div class="col-sm-3">
                                     <input type="text" value="{{$info['primary_id'] or ''}}" class="form-control"
@@ -183,6 +190,7 @@
                                                         <option @if($item['front_type'] == 'textarea') selected @endif value='textarea'>多行文本域</option>
                                                         <option @if($item['front_type'] == 'number') selected @endif value='number'>数字类型</option>
                                                         <option @if($item['front_type'] == 'rich_text') selected @endif  value='rich_text'>富文本</option>
+                                                        <option @if($item['front_type'] == 'single_file') selected @endif  value='single_file'>单文件</option>
                                                         <option @if($item['front_type'] == 'single_image') selected @endif  value='single_image'>单图</option>
                                                         <option  @if($item['front_type'] == 'mutiple_image') selected @endif  value='mutiple_image'>多图</option>
                                                     </select>
@@ -282,6 +290,7 @@
             sample += "<option value='rich_text'>富文本</option>"
             sample += "<option value='single_image'>单图</option>"
             sample += "<option value='mutiple_image'>多图</option>"
+            sample += "<option value='single_file'>单文件</option>"
             sample += "</select>"
             sample += "</td>"
             sample += "</tr>"

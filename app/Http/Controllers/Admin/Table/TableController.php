@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Table;
 
+use App\Dao\MigrationDao;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\UploadedFile;
 use App\Models\Users;
@@ -54,6 +55,7 @@ class TableController extends BaseAdminController
         $model = TableModel::findorNew($table_id);
         $model->table_name = request('table_name');
         $model->primary_id = request('primary_id');
+        $model->table_comment = request('table_comment');
         $model->timestamps = request('timestamps');
         $model->generate_migration = request('generate_migration');
         $model->execute_migration = request('execute_migration');
@@ -76,6 +78,7 @@ class TableController extends BaseAdminController
         }
         $model->table_struct = json_encode($table_struct);
         $model->save();
+        MigrationDao::make_migration($model);
         return $this->success(route('admin.table.index'));
     }
 
