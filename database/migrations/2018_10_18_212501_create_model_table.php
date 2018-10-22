@@ -20,6 +20,7 @@ class CreateModelTable extends Migration
             $table->string('primary_id')->nullable()->comment('表主键');
             $table->integer('timestamps')->nullable()->comment('是否支持时间戳,默认支持')->default(1);
             $table->integer('generate_migration')->nullable()->comment('是否生成migration文件')->default(1);
+            $table->integer('generate_view')->nullable()->comment('是否生成view文件')->default(1);
             $table->integer('execute_migration')->nullable()->comment('是否执行migration文件')->default(1);
             $table->integer('generate_model')->nullable()->comment('是否生成model文件')->default(1);
             $table->integer('generate_route')->nullable()->comment('是否生成route文件')->default(1);

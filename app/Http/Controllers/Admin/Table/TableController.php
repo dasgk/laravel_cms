@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Table;
 
 use App\Dao\MigrationDao;
+use App\Dao\ViewDao;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\UploadedFile;
 use App\Models\Users;
@@ -73,12 +74,20 @@ class TableController extends BaseAdminController
                 $item['default_value'] = request('default_value')[$k];
                 $item['is_mutiple_lan'] = request('is_mutiple_lan')[$k];
                 $item['front_type'] = request('front_type')[$k];
+                $item['front_text'] = request('front_text')[$k];
+                $item['front_value'] = request('front_value')[$k];
                 $table_struct[] = $item;
             }
         }
         $model->table_struct = json_encode($table_struct);
         $model->save();
-        MigrationDao::make_migration($model);
+        //判断是否生成migration文件
+        if(request('generate_migration')){
+            MigrationDao::make_migration($model);
+        }
+        if(1 || request('generate_view')){
+            ViewDao::makeFormView($model);
+        }
         return $this->success(route('admin.table.index'));
     }
 

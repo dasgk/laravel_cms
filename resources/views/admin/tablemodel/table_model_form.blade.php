@@ -126,17 +126,32 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">是否生成view文件</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="generate_view">
+                                        <option value="1"
+                                                @if($info && $info['generate_view'] ==1) selected @endif >生成
+                                        </option>
+                                        <option value="0"
+                                                @if($info && $info['generate_view'] ==0) selected @endif >不生成
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">表结构</label>
                                 <div class="col-sm-3" style="width:80%">
                                     <table class="table">
                                         <thead>
-                                        <td style="width:15%">字段名称</td>
-                                        <td style="width:15%">数据类型</td>
-                                        <td style="width:15%">是否可以为空</td>
-                                        <td style="width:15%">注释</td>
-                                        <td style="width:15%">默认值</td>
-                                        <td style="width:15%">是否是多语种字段</td>
-                                        <td style="width:15%">前端类型</td>
+                                        <td style="width:11%">字段名称</td>
+                                        <td style="width:11%">数据类型</td>
+                                        <td style="width:11%">是否可以为空</td>
+                                        <td style="width:11%">注释</td>
+                                        <td style="width:11%">默认值</td>
+                                        <td style="width:11%">是否是多语种字段</td>
+                                        <td style="width:11%">前端类型</td>
+                                        <td style="width:11%">前端文案</td>
+                                        <td style="width:11%">前端值（目前只对select有效1#打开2#关闭）</td>
                                         </thead>
                                         <tbody id="filed_list">
                                         @if($table_struct)
@@ -185,6 +200,7 @@
                                                 <!--前端类型g-->
                                                 <td>
                                                     <select class='form-control' style='width: 100%' name='front_type[]' >
+                                                        <option @if($item['front_type'] == '') selected @endif value='select'>无</option>
                                                         <option @if($item['front_type'] == 'select') selected @endif value='select'>选择框</option>
                                                         <option @if($item['front_type'] == 'text') selected @endif value='text'>文本域</option>
                                                         <option @if($item['front_type'] == 'textarea') selected @endif value='textarea'>多行文本域</option>
@@ -194,9 +210,19 @@
                                                         <option @if($item['front_type'] == 'single_image') selected @endif  value='single_image'>单图</option>
                                                         <option  @if($item['front_type'] == 'mutiple_image') selected @endif  value='mutiple_image'>多图</option>
                                                     </select>
-                                                </td>
-                                                @endforeach
+
+                                                    <!--前端文案-->
+                                                    <td>
+                                                        <input class='form-control' style='width: 100%' value="{{$item['front_text'] or ''}}"
+                                                               style='width: 100%' name='front_text[]' type='text'/>
+                                                    </td>
+                                                    <!--前端值-->
+                                                    <td>
+                                                        <input class='form-control' style='width: 100%' value="{{$item['front_value'] or ''}}"
+                                                               style='width: 100%' name='front_value[]' type='text'/>
+                                                    </td>
                                             </tr>
+                                            @endforeach
                                         @endif
                                         </tbody>
                                     </table>
@@ -293,6 +319,10 @@
             sample += "<option value='single_file'>单文件</option>"
             sample += "</select>"
             sample += "</td>"
+            //前端文案
+            sample += "<td>"
+            sample += "<input class='form-control' style='width: 100%' name='front_text[]' type='text'/>"
+            sample +="</td>"
             sample += "</tr>"
             $("#filed_list").append(sample)
         }
