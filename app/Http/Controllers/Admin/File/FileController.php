@@ -509,6 +509,7 @@ class FileController extends BaseAdminController
 	 */
 	public function upload_resource_html($uploaded_type, $file_id, $type, $now_num)
 	{
+
 		$info = UploadedType::where('type_key', $uploaded_type)->first();
 		$extensions = str_replace('|', ',', $info->allow_type);
 		$mimeArray = [];

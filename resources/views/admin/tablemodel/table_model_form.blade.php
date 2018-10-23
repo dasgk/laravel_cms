@@ -323,6 +323,10 @@
             sample += "<td>"
             sample += "<input class='form-control' style='width: 100%' name='front_text[]' type='text'/>"
             sample +="</td>"
+            //前端值
+            sample += "<td>"
+            sample += "<input class='form-control' style='width: 100%' name='front_value[]' type='text'/>"
+            sample +="</td>"
             sample += "</tr>"
             $("#filed_list").append(sample)
         }

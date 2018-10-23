@@ -58,7 +58,7 @@ class ViewDao
             <div class=\"col-sm-12\">
                 <div class=\"tabs-container\">
                     <ul class=\"nav nav-tabs\">
-                     <li><a href=\"{{route('admin.data.exhibit')}}\">展品列表</a></li>
+                     <li><a href=\"javascript:void(0)\">展品列表</a></li>
                       </ul>
                 </div>
             </div>
@@ -94,7 +94,7 @@ class ViewDao
         //创建数字类型的前端
         if($v['front_type'] == 'number'){
             $content = '
-                                <input type="number" name="'.$v['field_name'].'" value="{{$info[\'exhibit_num\'] or '.$v['default_value'].'}}" class="form-control" ';
+                                <input type="number" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or '.$v['default_value'].'}}" class="form-control" ';
             if($v['can_null']){
                 $content .= 'required/>';
             }else{
@@ -105,7 +105,7 @@ class ViewDao
         if($v['front_type'] == 'select'){
 
             $content = '
-                                <select class="form-control" name="'.$v['field_name'].'>';
+                                <select class="form-control" name="'.$v['field_name'].'">';
             //开始处理option
             $front_value = $v['front_value'];
             $front_value = explode('#',$front_value);
@@ -129,6 +129,76 @@ class ViewDao
             return $content;
 
 
+        }
+        if($v['front_type'] == 'single_file'){
+            $content = '
+                                <input type="text" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or ""}}"  id="'.$v['field_name'].'" class="form-control"
+                                                       style="width:400px;float: left"/>
+                                                <button type="button" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_MP3\',\''.$v['field_name'].'\',2);" class="btn btn-white">文件上传</button>';
+            return $content;
+        }
+        if($v['front_type'] == 'single_image'){
+            $content = '
+                                 <div class="webuploader-pick" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_RESOURCE\',\''.$v['field_name'].'\',1,\''
+                .$v['field_name'].'\',1);"
+                                             style=" float: left; display: inline-block; width: auto;">点击上传图片
+                                        </div>
+                                    </div>
+                            </div>
+            ';
+            $content .= '            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
+                                    <div id="'.$v['field_name'].'">';
+            $content .= '
+                                        <ul id="sortable-'.$v['field_name'].'" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
+                                                    @if(isset($info[\''.$v['field_name'].'\'])&&is_array($info[\''.$v['field_name'].'\'] ))
+                                                    @foreach($info[\''.$v['field_name'].'\'] as $kk=>$gg)
+                                                        <div class="img-div">
+                                                            <img src="{{get_file_url($gg)}}">
+                                                            <span onclick="del_img($(this))">×</span>
+                                                            <input type="hidden" name="{{$g[\'key\']}}[]" value="{{$gg}}">
+                                                        </div>
+                                                    @endforeach
+                                                    @endif
+                                         </ul>
+                                 </div>';
+            return $content;
+        }
+
+        if($v['front_type'] == 'mutiple_image'){
+            $content = '
+                                 <div class="webuploader-pick" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_MORE_RESOURCE\',\''.$v['field_name'].'\',1,\''
+                .$v['field_name'].'\',1);"
+                                             style=" float: left; display: inline-block; width: auto;">点击上传图片(可多张)
+                                        </div>
+                                    </div>
+                            </div>
+            ';
+            $content .= '            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
+                                    <div id="'.$v['field_name'].'">';
+            $content .= '
+                                        <ul id="sortable-'.$v['field_name'].'" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
+                                                    @if(isset($info[\''.$v['field_name'].'\'])&&is_array($info[\''.$v['field_name'].'\'] ))
+                                                    @foreach($info[\''.$v['field_name'].'\'] as $kk=>$gg)
+                                                        <div class="img-div">
+                                                            <img src="{{get_file_url($gg)}}">
+                                                            <span onclick="del_img($(this))">×</span>
+                                                            <input type="hidden" name="{{$g[\'key\']}}[]" value="{{$gg}}">
+                                                        </div>
+                                                    @endforeach
+                                                    @endif
+                                         </ul>
+                                          
+                                                <script>
+                                                    $(function () {
+                                                        $("#sortable-'.$v['field_name'].'").sortable();
+                                                    });
+                                                </script>
+                                        </div>';
+            return $content;
         }
     }
 
