@@ -317,6 +317,7 @@
             sample += "<option value='single_image'>单图</option>"
             sample += "<option value='mutiple_image'>多图</option>"
             sample += "<option value='single_file'>单文件</option>"
+            sample += "<option value='datetime'>时间类型</option>"
             sample += "</select>"
             sample += "</td>"
             //前端文案
