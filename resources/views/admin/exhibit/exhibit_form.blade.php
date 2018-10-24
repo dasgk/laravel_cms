@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">测试文案</label>
                             <div class="col-sm-4">
-			<input placeholder="时间" class="form-control layer-date laydate-icon" id="title" type="text" name="title"	 value="{{$info['title'] or ''}}"     style="width: 140px;" autocomplete="off">
+										<input placeholder="时间" class="form-control layer-date laydate-icon" id="title" type="text" name="title"	 value="{{$info['title'] or ''}}"     style="width: 140px;" autocomplete="off">
                             </div>
                         </div>
 						 <div class="layui-tab">

@@ -217,7 +217,7 @@ class ViewDao
 		//可以实现时间控件
 		if($v['front_type'] == 'datetime'){
 			$content ='
-			<input placeholder="时间" class="form-control layer-date laydate-icon" id="'.$v['field_name'].'" type="text" name="'.$v['field_name'].'"	 value="{{$info[\''.$v['field_name'].'\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
+										<input placeholder="时间" class="form-control layer-date laydate-icon" id="'.$v['field_name'].'" type="text" name="'.$v['field_name'].'"	 value="{{$info[\''.$v['field_name'].'\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
 			return $content;
 		}
     }
