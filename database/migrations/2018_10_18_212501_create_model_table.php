@@ -16,6 +16,7 @@ class CreateModelTable extends Migration
         Schema::create('table_model', function (Blueprint $table) {
             $table->increments('id');
             $table->string('table_name')->nullable()->comment('表名称');
+			$table->string('model_name')->nullable()->comment('模块名称');
             $table->string('table_comment')->nullable()->comment('表注释');
             $table->string('primary_id')->nullable()->comment('表主键');
             $table->integer('timestamps')->nullable()->comment('是否支持时间戳,默认支持')->default(1);

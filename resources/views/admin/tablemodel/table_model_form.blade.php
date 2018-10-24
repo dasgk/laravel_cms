@@ -36,6 +36,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">模块名称</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="model_name"
+                                           value="{{$info['model_name'] or ''}}" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">数据库表注释</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" name="table_comment"
