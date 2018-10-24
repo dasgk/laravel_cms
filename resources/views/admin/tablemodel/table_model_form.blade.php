@@ -200,8 +200,9 @@
                                                 <!--前端类型g-->
                                                 <td>
                                                     <select class='form-control' style='width: 100%' name='front_type[]' >
-                                                        <option @if($item['front_type'] == '') selected @endif value='select'>无</option>
+                                                        <option @if($item['front_type'] == '') selected @endif value=''>无</option>
                                                         <option @if($item['front_type'] == 'select') selected @endif value='select'>选择框</option>
+                                                        <option @if($item['front_type'] == 'datetime') selected @endif value='select'>时间选择</option>
                                                         <option @if($item['front_type'] == 'text') selected @endif value='text'>文本域</option>
                                                         <option @if($item['front_type'] == 'textarea') selected @endif value='textarea'>多行文本域</option>
                                                         <option @if($item['front_type'] == 'number') selected @endif value='number'>数字类型</option>
@@ -309,6 +310,7 @@
             //前端类型
             sample += "<td>"
             sample += "<select class='form-control' style='width: 100%' name='front_type[]' >"
+            sample += "<option value=''>无</option>"
             sample += "<option value='select'>选择框</option>"
             sample += "<option value='text'>文本域</option>"
             sample += "<option value='textarea'>多行文本域</option>"
