@@ -215,6 +215,11 @@ class ViewDao
 			return $content;
 		}
 		//可以实现时间控件
+		if($v['front_type'] == 'datetime'){
+			$content ='
+			<input placeholder="时间" class="form-control layer-date laydate-icon" id="'.$v['field_name'].'" type="text" name="'.$v['field_name'].'"	 value="{{$info[\''.$v['field_name'].'\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
+			return $content;
+		}
     }
 
 	/**
@@ -366,7 +371,11 @@ class ViewDao
 		}
 	}
 
-
+	/**
+	 * 渲染出ueditor的js文件
+	 * @param $header
+	 * @return string
+	 */
 	private static function ui_editor($header){
 		$header.= '
 				
@@ -379,6 +388,17 @@ class ViewDao
         });
     </script>
     ';
+		return $header;
+	}
+
+
+	/**
+	 *
+	 */
+	private static function laydate_js($header){
+		$header .= '
+		    <script src="{{cdn(\'js/jquery-1.12.4.min.js\')}}"></script>
+    		<script src="{{cdn(\'js/plugins/laydate/laydate.js\')}}"></script>';
 		return $header;
 	}
 
@@ -395,12 +415,15 @@ class ViewDao
                 <div class="ibox float-e-margins">
                     <form action="" method="post" class="form-horizontal ajaxForm">';
         $is_mutiple_language = 0;
-
+		$is_datetime = 0;
         foreach ($table_struct as $v){
             if(empty($v['front_type'])){
                 continue;//如果该字段的前端类型是空，则不展示
             }
             //非多语种字段
+			if($v['front_type'] == 'datetime'){
+            	$is_datetime = 1;
+			}
             if(empty($v['is_mutiple_lan'])){
                 //添加展示的label
                 $header .= '
@@ -478,18 +501,19 @@ class ViewDao
 		//处理完多语种之后，重新遍历$table_struct 是否需要进行js渲染
 		$header .= '
 @section(\'script\')';
-		$ui_editor = 0;
         if($is_mutiple_language){
         	//如果有多语种，则渲染出 layui
 			$header = self::ui_editor($header);
-			$ui_editor = 1;
+
+		}
+		//渲染时间控件的js
+		if($is_datetime){
+        	$header = self::laydate_js($header);
 		}
 		foreach ($table_struct as $v) {
 			//处理js ，只有 富文本和时间空间是需要js渲染的
 			if($v['front_type'] == 'rich_text'){
-				if(!$ui_editor){
-					$header = self::ui_editor($header);
-				}
+
 				if($v['is_mutiple_lan']){
 					//如果是多语种的
 					$header .= '
@@ -567,10 +591,25 @@ class ViewDao
 		  </script>	';
 				}
 			}
+			//渲染时间控件，时间控件没有多语种
+			if($v['front_type'] == 'datetime'){
+				$header .= '
+				<script type="text/javascript">
+        var '.$v['field_name'].' = {
+            elem: "#'.$v['field_name'].'", format: "YYYY-MM-DD", 
+            isclear: false,
+            istoday: false,
+            issure: false,
+            choose: function (datas) {                         
+            }
+        };
+ laydate('.$v['field_name'].');
+ </script>';
+			}
 		}
+		//闭合 @section('script')
 		$header .= '
 @endsection';
-
         file_put_contents($table_name, $header);
     }
 }

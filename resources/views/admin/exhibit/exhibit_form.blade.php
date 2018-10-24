@@ -41,10 +41,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">测试文案</label>
                             <div class="col-sm-4">
-                                <select class="form-control" name="title">
-                                    <option value="1" @if($info && $info['title']==1) selected @endif>轮播</option>
-                                    <option value="2" @if($info && $info['title']==2) selected @endif>不轮播</option>
-                                  </select>
+			<input placeholder="时间" class="form-control layer-date laydate-icon" id="title" type="text" name="title"	 value="{{$info['title'] or ''}}"     style="width: 140px;" autocomplete="off">
                             </div>
                         </div>
 						 <div class="layui-tab">
@@ -108,4 +105,17 @@
         });
     </script>
     
+		    <script src="{{cdn('js/jquery-1.12.4.min.js')}}"></script>
+    		<script src="{{cdn('js/plugins/laydate/laydate.js')}}"></script>
+				<script type="text/javascript">
+        var title = {
+            elem: "#title", format: "YYYY-MM-DD", 
+            isclear: false,
+            istoday: false,
+            issure: false,
+            choose: function (datas) {                         
+            }
+        };
+ laydate(title);
+ </script>
 @endsection
