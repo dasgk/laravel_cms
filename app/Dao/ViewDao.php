@@ -214,6 +214,7 @@ class ViewDao
 								<script type="text/plain" id="'.$v['field_name'].'" name="'.$v['field_name'].'">{{$info["'.$v['field_name'].'"]  or "'.$v['default_value'].'"}}</script>';
 			return $content;
 		}
+		//可以实现时间控件
     }
 
 	/**
@@ -290,7 +291,7 @@ class ViewDao
 			$content = '
                                 <input type="text" name="'.$v['field_name'].'_'.'{{$k}}'.'" value="{{$info[\'language\'][$k][\''.$v['field_name'].'\'] or ""}}"  id="'.$v['field_name'].'_'.'{{$k}}'.'" class="form-control"
                                                        style="width:400px;float: left"/>
-                                                <button type="button" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_MP3\',\''.$v['field_name'].''.'_'.'{{$k}}'.'\',2);" class="btn btn-white">文件上传</button>';
+                                <button type="button" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_MP3\',\''.$v['field_name'].''.'_'.'{{$k}}'.'\',2);" class="btn btn-white">文件上传</button>';
 			return $content;
 		}
 		//可以上传单个图片
