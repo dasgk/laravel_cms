@@ -63,7 +63,7 @@ class ViewDao
             width: 80%;
         }
     </style>
-    <script src='cdn('js/plugins/jquery-ui.min.js') '></script>
+    <script src=\"".'{{'."cdn('js/plugins/jquery-ui.min.js') ".'}}'."\"></script>
 @endsection
 @section('bodyattr')@endsection";
 
@@ -75,7 +75,7 @@ class ViewDao
                 <div class=\"tabs-container\">
                     <ul class=\"nav nav-tabs\">
                      <li><a href=\"{{".'route(\'admin.'.$model->table_name.'.index\')'."}}\">".$model->model_name."列表</a></li>
-                     <li><a href=\"javascript:void(0)\">".$model->model_name."编辑</a></li>
+                     <li class='active'><a href=\"javascript:void(0)\">".$model->model_name."编辑</a></li>
                       </ul>
                 </div>
             </div>
@@ -93,7 +93,7 @@ class ViewDao
         //创建文本域类型的前端
         if($v['front_type'] == 'text'){
            $content = '
-                                <input type="text" name="'.$v['field_name'].'" value="{{$info[\'exhibit_num\'] or \'\'}}" class="form-control" maxlength="10" ';
+                                <input type="text" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or \'\'}}" class="form-control" maxlength="10" ';
            if($v['can_null']){
                $content .= 'required/>';
            }else{
@@ -175,19 +175,15 @@ class ViewDao
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-4" style="overflow: auto;width: 80%;">
                                     <div id="'.$v['field_name'].'">';
+            $content .= '@if($info && $info[\''.$v['field_name'].'\'])';
             $content .= '
-                                        <ul id="sortable-'.$v['field_name'].'" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
-                                                    @if(isset($info[\''.$v['field_name'].'\'])&&is_array($info[\''.$v['field_name'].'\'] ))
-                                                    @foreach($info[\''.$v['field_name'].'\'] as $kk=>$gg)
-                                                        <div class="img-div">
-                                                            <img src="{{get_file_url($gg)}}">
-                                                            <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="{{$g[\'key\']}}[]" value="{{$gg}}">
-                                                        </div>
-                                                    @endforeach
-                                                    @endif
-                                         </ul>
-                                 </div>';
+								 <div class="img-div">
+                                                    <img src="{{get_file_url($info[\''.$v['field_name'].'\'])}}">
+                                                    <span onclick="del_img($(this))">×</span>
+                                                    <input type="hidden" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\']}}">
+                                                </div>
+                                 </div>
+                                 @endif';
             return $content;
         }
 		//可以上传多个图片
@@ -211,17 +207,12 @@ class ViewDao
                                                         <div class="img-div">
                                                             <img src="{{get_file_url($gg)}}">
                                                             <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="{{$g[\'key\']}}[]" value="{{$gg}}">
+                                                            <input type="hidden" name="'.$v['field_name'].'[]" value="{{$gg}}">
                                                         </div>
                                                     @endforeach
                                                     @endif
-                                         </ul>
-                                          
-                                                <script>
-                                                    $(function () {
-                                                        $("#sortable-'.$v['field_name'].'").sortable();
-                                                    });
-                                                </script>
+                                         </ul>                                         
+                                                
                                         </div>';
             return $content;
         }
@@ -430,7 +421,14 @@ class ViewDao
         $header .= '<div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
-                    <form action="" method="post" class="form-horizontal ajaxForm">';
+                    <form action="{{route(\'admin.'.$model->table_name.'.save\')}}" method="post" class="form-horizontal ajaxForm">';
+        //增加token
+		$header .= '
+						{{csrf_field()}}
+				';
+		// 增加主键的展示
+		$header .= '		<input type="hidden" value={{$info[\''.$model->primary_id.'\'] or  ""}} name=\''.$model->primary_id.'\'/>';
+
         $is_mutiple_language = 0;
 		$is_datetime = 0;
         foreach ($table_struct as $v){
@@ -661,7 +659,7 @@ class ViewDao
 		$content = self::getListHeader();
 		$content .= '<ul class="nav nav-tabs">
                         <li class="active"><a href="{{route(\'admin.'.$model->table_name.'.index\')}}">'.$model->model_name.'列表</a></li>
-                        <li><a href="{{route(\'admin.'.$model->table_name.'.edit\',\'add\')}}">添加'.$model->model_name.'</a></li>
+                        <li><a href="{{route(\'admin.'.$model->table_name.'.edit\',array(\'id\'=>\'add\'))}}">添加'.$model->model_name.'</a></li>
                     </ul>                    
                 </div>
             </div>
@@ -684,6 +682,9 @@ class ViewDao
 ';
 			}
 		}
+		//添加操作功能列
+		$content .= '								<th>操作</th>
+';
 		// 列表头部闭合
 		$content .= '
                             </tr>
@@ -695,16 +696,27 @@ class ViewDao
 		foreach ($table_struct as $item){
 			if($item['front_type']){
 				if($item['front_type'] =='single_image'){
+					//单图的话，展示单图
 					$content .= '
-								<th><img style="height:50;width:50" src="$v[\''.$item['field_name'].'\']"/></th>
+								<td><img style="height:100px;width:100px" src="{{$v[\''.$item['field_name'].'\']}}"/></td>
 ';
 				}else{
+					//其他展示内容
 					$content .= '
-								<th>$v[\''.$item['field_name'].'\']</th>
+								<td>{{$v[\''.$item['field_name'].'\']}}</td>
 ';
 				}
 			}
 		}
+		// 输出操作列，只有编辑和删除功能
+		$content .= '
+								<td>';
+		//添加编辑功能
+		$content .= '<a href="{{route(\'admin.'.$model->table_name.'.edit\',array(\'id\'=>$v[\''.$model->primary_id.'\']))}}">编辑</a>|';
+		//添加删除功能
+		$content .= '<a class="ajaxBtn btn-delete" href="javascript:void(0);" uri="{{route(\'admin.'.$model->table_name.'.delete\' ,array(\'id\'=>$v[\''.$model->primary_id.'\']))}}" msg="是否删除该'.$model->model_name.'？">删除</a>';
+		$content .='</td>
+';
 
 		$content .='
                                 </tr>

@@ -106,45 +106,21 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">是否生成route文件</label>
+                                <label class="col-sm-2 control-label">是否后台管理</label>
                                 <div class="col-sm-3">
-                                    <select class="form-control" name="generate_route">
-                                        <option value="1" @if($info && $info['generate_route'] ==1) selected @endif >
-                                            生成
-                                        </option>
-                                        <option value="0" @if($info && $info['generate_route'] ==0) selected @endif >
-                                            不生成
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否生成controller文件</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="generate_controller">
+                                    <select class="form-control" name="is_backup_control">
                                         <option value="1"
-                                                @if($info && $info['generate_controller'] ==1) selected @endif >生成
+                                                @if($info && $info['is_backup_control'] ==1) selected @endif >管理
                                         </option>
                                         <option value="0"
-                                                @if($info && $info['generate_controller'] ==0) selected @endif >不生成
+                                                @if($info && $info['is_backup_control'] ==0) selected @endif >不管理
                                         </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否生成view文件</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="generate_view">
-                                        <option value="1"
-                                                @if($info && $info['generate_view'] ==1) selected @endif >生成
-                                        </option>
-                                        <option value="0"
-                                                @if($info && $info['generate_view'] ==0) selected @endif >不生成
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">表结构</label>
                                 <div class="col-sm-3" style="width:80%">

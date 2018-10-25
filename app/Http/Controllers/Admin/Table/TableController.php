@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Table;
 
+use App\Dao\ControllerDao;
 use App\Dao\MigrationDao;
 use App\Dao\ModelDao;
+use App\Dao\RouteDao;
 use App\Dao\ViewDao;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\UploadedFile;
@@ -96,12 +98,13 @@ class TableController extends BaseAdminController
 		}
 		//是否后台管理
 		if( request('is_backup_control')){
-
         	//生成view
 			ViewDao::makeListView($model);
 			ViewDao::makeFormView($model);
 			//生成controller
+			ControllerDao::makeControllerWithoutLanguage($model);
 			//生成route
+			RouteDao::makeRoute($model);
 			//生成menu
 		}
         return $this->success(route('admin.table.index'));

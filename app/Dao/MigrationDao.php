@@ -260,8 +260,10 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 	{
 		//创建主信息表，如果有需要语种信息，则进行创建
 		$is_mutiple_language = self::generate_migration_without_language($model);
-		if ($is_mutiple_language) {
+
+		if ($is_mutiple_language == 1) {
 			self::generate_migration_with_language($model);
+
 		}
 	}
 
