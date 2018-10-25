@@ -15,7 +15,7 @@ class MigrationDao
 	 */
 	private static function generate_file_name($table_name, $language = 0)
 	{
-		$name_prefix = date("Y_m_d_His", time()) . "_";
+		$name_prefix = "2018_18_18_888888". "_";
 		if (!$language) {
 			$name = $name_prefix . 'create_' . $table_name . '_table.php';
 		} else {
@@ -164,10 +164,10 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		$timestamp = $model->timestamps;
 		$table_comment = $model->table_comment . '语种信息';
 		$table_struct = \json_decode($model->table_struct, true);
-		$file_content = self::generate_first_lines($table_name, 1);
+		$file_content = self::generate_first_lines($model->table_name, 1);
 
 		//添加表名称定义
-		$file_content .= '"' . $table_name . '";';
+		$file_content .= '"' . $model->table_name . '_language";';
 		$file_content .= PHP_EOL;
 
 		//添加表注释
@@ -249,7 +249,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		}
 	}
 }';
-		$file_name = self::generate_file_name($table_name, 1);
+		$file_name = self::generate_file_name($model->table_name, 1);
 		file_put_contents(app_path(".." . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . $file_name), $file_content);
 	}
 

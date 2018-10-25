@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Table;
 
 use App\Dao\MigrationDao;
+use App\Dao\ModelDao;
 use App\Dao\ViewDao;
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\UploadedFile;
@@ -62,8 +63,7 @@ class TableController extends BaseAdminController
         $model->generate_migration = request('generate_migration');
         $model->execute_migration = request('execute_migration');
         $model->generate_model = request('generate_model');
-        $model->generate_route = request('generate_route');
-        $model->generate_controller = request('generate_controller');
+        $model->is_backup_control = request('is_backup_control');
         $table_struct = [];
         $field_name = request('field_name');
         if($field_name){
@@ -86,9 +86,24 @@ class TableController extends BaseAdminController
         if(request('generate_migration')){
             MigrationDao::make_migration($model);
         }
-        if( request('generate_view')){
-            ViewDao::makeFormView($model);
-        }
+        //判断是否执行migrate
+		if(request('execute_migration')){
+        	$command = 'php '.base_path('artisan').' migrate';
+        	exec($command);
+		}
+        if(request('generate_model')){
+        	ModelDao::makeModel($model);
+		}
+		//是否后台管理
+		if( request('is_backup_control')){
+
+        	//生成view
+			ViewDao::makeListView($model);
+			ViewDao::makeFormView($model);
+			//生成controller
+			//生成route
+			//生成menu
+		}
         return $this->success(route('admin.table.index'));
     }
 

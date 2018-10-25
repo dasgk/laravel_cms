@@ -20,11 +20,27 @@ class ViewDao
         return $fileName;
     }
 
-    /**
+	/**
+	 * 生成view文件的name
+	 */
+	public static function getListFileName($table_name){
+		$dir = resource_path('views'.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.$table_name.DIRECTORY_SEPARATOR);
+		if(!file_exists($dir)){
+			mkdir ($dir,0777,true);
+		}else{
+
+		}
+		$fileName = $dir.$table_name."_list.blade.php";
+		return $fileName;
+	}
+
+
+
+	/**
      * 获得form页面的header
      * @return string
      */
-    public static function generateFormHeaderContent(){
+    public static function generateFormHeaderContent($model){
         $header = "@extends('layouts.public')
 @section('head')
     <style>
@@ -47,7 +63,7 @@ class ViewDao
             width: 80%;
         }
     </style>
-    <script src='".cdn('js/plugins/jquery-ui.min.js') ."'></script>
+    <script src='cdn('js/plugins/jquery-ui.min.js') '></script>
 @endsection
 @section('bodyattr')@endsection";
 
@@ -58,7 +74,8 @@ class ViewDao
             <div class=\"col-sm-12\">
                 <div class=\"tabs-container\">
                     <ul class=\"nav nav-tabs\">
-                     <li><a href=\"javascript:void(0)\">展品列表</a></li>
+                     <li><a href=\"{{".'route(\'admin.'.$model->table_name.'.index\')'."}}\">".$model->model_name."列表</a></li>
+                     <li><a href=\"javascript:void(0)\">".$model->model_name."编辑</a></li>
                       </ul>
                 </div>
             </div>
@@ -409,7 +426,7 @@ class ViewDao
     public static function makeFormView($model){
         $table_name = self::getFormFileName($model->table_name);
         $table_struct = \json_decode($model->table_struct, true);
-        $header = self::generateFormHeaderContent();
+        $header = self::generateFormHeaderContent($model);
         $header .= '<div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -612,5 +629,101 @@ class ViewDao
 @endsection';
         file_put_contents($table_name, $header);
     }
+
+	/**
+	 * list视图添加内容
+	 * @return string
+	 */
+	private static function getListHeader(){
+    	$content = '@extends(\'layouts.public\')
+
+@section(\'head\')
+    <link rel="stylesheet" href="{{cdn(\'css/add/exhibit.css\')}}">
+@endsection
+
+@section(\'body\')
+
+    <div class="wrapper wrapper-content">
+
+        <div class="row m-b">
+            <div class="col-sm-12">
+                <div class="tabs-container">
+                    ';
+    	return $content;
+	}
+
+	/**
+	 * 生成列表的view文件
+	 * @param $model
+	 */
+    public static function makeListView($model){
+    	//创建header
+		$content = self::getListHeader();
+		$content .= '<ul class="nav nav-tabs">
+                        <li class="active"><a href="{{route(\'admin.'.$model->table_name.'.index\')}}">'.$model->model_name.'列表</a></li>
+                        <li><a href="{{route(\'admin.'.$model->table_name.'.edit\',\'add\')}}">添加'.$model->model_name.'</a></li>
+                    </ul>                    
+                </div>
+            </div>
+        </div>';
+		// 创建列表视图
+		$content .= '
+		<div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <table class="table table-striped table-new table-hover infoTables-example infoTable">
+                            <thead>
+                            <tr role="row">';
+		$table_struct = json_decode($model->table_struct, true);
+		$content .= '
+';
+		foreach ($table_struct as $item){
+			if($item['front_type']){
+				$content .= '								<th>'.$item['front_text'].'</th>
+';
+			}
+		}
+		// 列表头部闭合
+		$content .= '
+                            </tr>
+                            </thead>';
+		// 开始输出内容
+		$content .= '
+                            @foreach($list as $k=>$v)
+                                <tr class="gradeA" >';
+		foreach ($table_struct as $item){
+			if($item['front_type']){
+				if($item['front_type'] =='single_image'){
+					$content .= '
+								<th><img style="height:50;width:50" src="$v[\''.$item['field_name'].'\']"/></th>
+';
+				}else{
+					$content .= '
+								<th>$v[\''.$item['field_name'].'\']</th>
+';
+				}
+			}
+		}
+
+		$content .='
+                                </tr>
+                            @endforeach
+                        </table>
+                        <div class="row recordpage">
+                            <div class="col-sm-12">
+                                {!! $list->links() !!}
+                                <span>共 {{ $list->total() }} 条记录</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@endsection';
+		//写入文件
+		$file_name = self::getListFileName($model->table_name);
+		file_put_contents($file_name, $content);
+	}
 }
 
