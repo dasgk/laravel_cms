@@ -261,12 +261,16 @@ class ExhibitController extends BaseAdminController
 		//如果是多语种,
 		$content .= '
 				//先删除原有数据
-				' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->delete();
+				' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
 				';
 		//设置原来的数据
 		$content .= '
-				$language_model = ' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->firstOrNew();
+				$language_model = ' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
+				if(empty($language_model)){
+					$language_model = new '.ucfirst($model->table_name) . 'Language();'.'
+				}
 				';
+		$content .= '$language_model->'.$model->table_name.'_id = $model->'.$model->primary_id.';';
 		//设置每一项的值
 		foreach ($table_struct as $item) {
 			if ($item['is_mutiple_lan']) {
@@ -275,6 +279,7 @@ class ExhibitController extends BaseAdminController
 			}
 		}
 		$content .= '
+				$language_model->language = $k;
 				$language_model->save();';
 
 		$content .= '

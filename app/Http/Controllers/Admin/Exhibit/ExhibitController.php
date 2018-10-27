@@ -76,12 +76,16 @@ class ExhibitController extends BaseAdminController
 		//开始处理多语种
 		foreach(config('language') as $k=>$v){
 				//先删除原有数据
-				ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->delete();
+				ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->first();
 				
-				$language_model = ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->firstOrNew();
-				
+				$language_model = ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->first();
+				if(empty($language_model)){
+					$language_model = new ExhibitLanguage();
+				}
+				$language_model->exhibit_id = $model->exhibit_id;
 				$language_model->title=request("title_$k");
 				$language_model->content=request("content_$k");
+				$language_model->language = $k;
 				$language_model->save();
 		}
 		return $this->success(route('admin.exhibit.index'));

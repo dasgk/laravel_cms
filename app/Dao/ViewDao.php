@@ -95,7 +95,7 @@ class ViewDao
            $content = '
                                 <input type="text" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or \'\'}}" class="form-control" maxlength="10" ';
            if($v['can_null']){
-               $content .= 'required/>';
+               $content .= '/>';
            }else{
                $content .= '/>';
            }
@@ -106,7 +106,7 @@ class ViewDao
             $content = '
                                 <textarea class="form-control" name="'.$v['field_name'];
 			if(empty($v['can_null'])) {
-				$content .= '" required>';
+				$content .= '" >';
 			}else{
 				$content .= '" >';
 			}
@@ -118,7 +118,7 @@ class ViewDao
             $content = '
                                 <input type="number" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or \''.$v['default_value'].'\'}}" class="form-control" ';
             if($v['can_null']){
-                $content .= 'required/>';
+                $content .= '/>';
             }else{
                 $content .= '/>';
             }
@@ -241,7 +241,7 @@ class ViewDao
 			$content = '
                                 <input type="text" name="'.$v['field_name'].'_'.'{{$k}}'.'" value="{{$info[\'language\'][$k][\''.$v['field_name'].'\'] or \'\'}}" class="form-control" maxlength="10" ';
 			if($v['can_null']){
-				$content .= 'required/>';
+				$content .= '/>';
 			}else{
 				$content .= '/>';
 			}
@@ -252,7 +252,7 @@ class ViewDao
 			$content = '
                                 <textarea class="form-control" name="'.$v['field_name'].'_{{$k}}';
 			if(empty($v['can_null'])) {
-				$content .= '" required>';
+				$content .= '" >';
 			}else{
 				$content .= '" >';
 			}
@@ -264,7 +264,7 @@ class ViewDao
 			$content = '
                                 <input type="number" name="'.$v['field_name'].'_'.'{{$k}}'.'" value="{{$info[\'language\'][$k][\''.$v['field_name'].'\'] or \''.$v['default_value'].'\'}}" class="form-control" ';
 			if($v['can_null']){
-				$content .= 'required/>';
+				$content .= '/>';
 			}else{
 				$content .= '/>';
 			}
@@ -427,7 +427,7 @@ class ViewDao
 						{{csrf_field()}}
 				';
 		// 增加主键的展示
-		$header .= '		<input type="hidden" value={{$info[\''.$model->primary_id.'\'] or  ""}} name=\''.$model->primary_id.'\'/>';
+		$header .= '		<input type="hidden" value="{{$info[\''.$model->primary_id.'\'] or  \'add\'}}" name=\''.$model->primary_id.'\'/>';
 
         $is_mutiple_language = 0;
 		$is_datetime = 0;

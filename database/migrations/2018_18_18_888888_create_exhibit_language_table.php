@@ -22,6 +22,8 @@ class CreateExhibitLanguageTable extends Migration
 		$table->increments($this->primaryId);
 
 		$table->integer("exhibit_id")->comment("主表关联")->default(0);
+
+		$table->integer("language")->comment("语种信息表")->default(1);
 		$table->string("title")->comment("标题")->nullable()->default("");
 		$table->text("content")->comment("详细内容")->nullable();
 		$table->timestamps();

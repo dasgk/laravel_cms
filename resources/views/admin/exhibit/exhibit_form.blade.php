@@ -40,7 +40,7 @@
                 <div class="ibox float-e-margins">
                     <form action="{{route('admin.exhibit.save')}}" method="post" class="form-horizontal ajaxForm">
 						{{csrf_field()}}
-						<input type="hidden" value={{$info['exhibit_id'] or  ""}} name='exhibit_id'/>
+						<input type="hidden" value="{{$info['exhibit_id'] or  'add'}}" name='exhibit_id'/>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">展品编号</label>
                             <div class="col-sm-4">

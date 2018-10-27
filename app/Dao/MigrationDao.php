@@ -195,6 +195,10 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		$file_content .= PHP_EOL;
 		$file_content .= "\t" . "\t" . '$table->integer("' . $model->table_name . '_id")->comment("主表关联")->default(0);';
 		$file_content .= PHP_EOL;
+		//设置语种表
+		$file_content .= PHP_EOL;
+		$file_content .= "\t" . "\t" . '$table->integer("language")->comment("语种信息表")->default(1);';
+		$file_content .= PHP_EOL;
 		foreach ($table_struct as $item) {
 			//不是语种信息的则不处理
 			if (!$item['is_mutiple_lan']) {
