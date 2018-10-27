@@ -70,6 +70,10 @@ class TableController extends BaseAdminController
         $field_name = request('field_name');
         if($field_name){
             foreach ($field_name as $k => $v) {
+            	//如果数据类型是text，则不允许有默认值
+				if(request('field_type')[$k] == 'text' && request('default_value')[$k]){
+					return $this->error('数据类型是text时，不允许有默认值');
+				}
                 $item['field_name'] = $v;
                 $item['field_type'] = request('field_type')[$k];
                 $item['can_null'] = request('can_null')[$k];
@@ -102,7 +106,7 @@ class TableController extends BaseAdminController
 			ViewDao::makeListView($model);
 			ViewDao::makeFormView($model);
 			//生成controller
-			ControllerDao::makeControllerWithoutLanguage($model);
+			ControllerDao::makeController($model);
 			//生成route
 			RouteDao::makeRoute($model);
 			//生成menu

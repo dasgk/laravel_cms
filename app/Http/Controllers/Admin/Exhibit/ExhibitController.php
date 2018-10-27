@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin\Exhibit;
 
 use App\Http\Controllers\Admin\BaseAdminController;
+// 引用主表
 use App\Models\Exhibit;
+// 引用语种信息表
+use App\Models\ExhibitLanguage;
+
 
 
 /**
@@ -39,10 +43,7 @@ class ExhibitController extends BaseAdminController
 	public function edit()
 	{
 		$id = request('id');
-		$info = Exhibit::find($id);
-		if($info){
-			$info->content = \json_decode($info->content, true);	
-		}					
+		$info = Exhibit::find($id);				
 		return view('admin.exhibit.exhibit_form', ['info' => $info]);
 	}
 
@@ -51,11 +52,13 @@ class ExhibitController extends BaseAdminController
 	 */
 	public function save(){
 		$id = request('exhibit_id');
+		$this->validate(request(), [
+						'exhibit_num'=>'required',]);
 		$model = Exhibit::findorNew($id);
-		$model->title = request('title');
-		$model->file_path = request('file_path');
+		$model->exhibit_num = request('exhibit_num');
 		$model->list_img = request('list_img');
-		$model->content = json_encode(request('content'));		
+		$model->title = request('title');
+		$model->content = request('content');		
 		$model->save();
 		return $this->success(route('admin.exhibit.index'));
 	}

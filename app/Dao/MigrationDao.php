@@ -99,7 +99,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 			}
 			$file_content .= "\t\t" . '$table->' . $item['field_type'] . '("' . $item['field_name'] . '")->comment("' . $item['comment'] . '")';
 			//是否可以为空
-			if ($item['can_null']) {
+			if ($item['can_null'] && $item['field_type'] != 'text') {
 				$file_content .= '->nullable()';
 			}
 			//是否有默认值
@@ -214,7 +214,9 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 				}
 
 			}else{
-				$file_content .= '->default("' . $item['default_value'] . '")';
+				if($item['field_type'] != 'text'){
+					$file_content .= '->default("' . $item['default_value'] . '")';
+				}
 			}
 
 			$file_content .= ';' . PHP_EOL;

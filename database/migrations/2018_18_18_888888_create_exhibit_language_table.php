@@ -5,11 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;	
 
-class CreateExhibitTable extends Migration
+class CreateExhibitLanguageTable extends Migration
 {
-	private $tableName = "exhibit";
-	private $tableComment = "展品信息表";
-	private $primaryId= "exhibit_id";
+	private $tableName = "exhibit_language";
+	private $tableComment = "展品信息表语种信息的语种信息";
+	private $primaryId= "exhibit_language_id";
 
 	/**
 	 * Run the migrations.
@@ -20,8 +20,10 @@ class CreateExhibitTable extends Migration
 	{
 		Schema::create($this->tableName, function (Blueprint $table) {
 		$table->increments($this->primaryId);
-		$table->string("exhibit_num")->comment("展品编号")->default("");
-		$table->string("list_img")->comment("列表图")->nullable()->default("");
+
+		$table->integer("exhibit_id")->comment("主表关联")->default(0);
+		$table->string("title")->comment("标题")->nullable()->default("");
+		$table->text("content")->comment("详细内容")->nullable();
 		$table->timestamps();
 			if (env('DB_CONNECTION') == 'oracle') {
 				$table->comment = $this->tableComment;

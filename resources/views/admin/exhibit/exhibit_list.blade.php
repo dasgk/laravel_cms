@@ -25,9 +25,9 @@
                         <table class="table table-striped table-new table-hover infoTables-example infoTable">
                             <thead>
                             <tr role="row">
-								<th>测试文案</th>
-								<th>音频文件</th>
+								<th>展品编号</th>
 								<th>列表图</th>
+								<th>展品名称</th>
 								<th>详细内容</th>
 								<th>操作</th>
 
@@ -35,11 +35,11 @@
                             </thead>
                             @foreach($list as $k=>$v)
                                 <tr class="gradeA" >
+								<td>{{$v['exhibit_num']}}</td>
+
+								<td><img style="height:100px;width:100px" src="{{$v['list_img']}}"/></td>
+
 								<td>{{$v['title']}}</td>
-
-								<td>{{$v['file_path']}}</td>
-
-								<td>{{$v['list_img']}}</td>
 
 								<td>{{$v['content']}}</td>
 
