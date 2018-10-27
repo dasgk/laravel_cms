@@ -756,7 +756,7 @@ class ViewDao
 		$content .= '
 ';
 		foreach ($table_struct as $item){
-			if($item['front_type']){
+			if($item['front_type'] && empty($item['is_mutiple_lan'])){
 				$content .= '								<th>'.$item['front_text'].'</th>
 ';
 			}
@@ -773,7 +773,7 @@ class ViewDao
                             @foreach($list as $k=>$v)
                                 <tr class="gradeA" >';
 		foreach ($table_struct as $item){
-			if($item['front_type']){
+			if($item['front_type'] && empty($item['is_mutiple_lan'])){
 				if($item['front_type'] =='single_image'){
 					//单图的话，展示单图
 					$content .= '

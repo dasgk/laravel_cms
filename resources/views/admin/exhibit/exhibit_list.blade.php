@@ -27,8 +27,6 @@
                             <tr role="row">
 								<th>展品编号</th>
 								<th>列表图</th>
-								<th>展品名称</th>
-								<th>详细内容</th>
 								<th>操作</th>
 
                             </tr>
@@ -38,10 +36,6 @@
 								<td>{{$v['exhibit_num']}}</td>
 
 								<td><img style="height:100px;width:100px" src="{{$v['list_img']}}"/></td>
-
-								<td>{{$v['title']}}</td>
-
-								<td>{{$v['content']}}</td>
 
 								<td><a href="{{route('admin.exhibit.edit',array('id'=>$v['exhibit_id']))}}">编辑</a>|<a class="ajaxBtn btn-delete" href="javascript:void(0);" uri="{{route('admin.exhibit.delete' ,array('id'=>$v['exhibit_id']))}}" msg="是否删除该展品？">删除</a></td>
 
