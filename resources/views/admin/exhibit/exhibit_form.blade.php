@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">展品名称({{$g['name']}})</label>
                             <div class="col-sm-4">
-                                <input type="text" name="title_{{$k}}" value="{{$info['language'][$k]['title'] or ''}}" class="form-control" maxlength="10" required/>
+                                <input type="text" name="title_{{$k}}" value="{{$info['language'][$k]['title'] or ''}}" class="form-control" maxlength="10" />
 							</div>
 						</div>
                         <div class="form-group">
