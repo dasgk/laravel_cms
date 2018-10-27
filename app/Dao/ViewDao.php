@@ -91,19 +91,35 @@ class ViewDao
 	 */
     public static function generateInputHtmlOutLanguage($v){
         //创建文本域类型的前端
+
         if($v['front_type'] == 'text'){
-           $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+           $content .= '
                                 <input type="text" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or \'\'}}" class="form-control" maxlength="10" ';
            if($v['can_null']){
                $content .= '/>';
            }else{
                $content .= '/>';
            }
+			$content .= '
+                            </div>
+                        </div>';
            return $content;
         }
         //创建textarea类型的前端
         if($v['front_type'] == 'textarea'){
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                 <textarea class="form-control" name="'.$v['field_name'];
 			if(empty($v['can_null'])) {
 				$content .= '" >';
@@ -111,23 +127,40 @@ class ViewDao
 				$content .= '" >';
 			}
 			$content .='{{$info[\'exhibit_num\'] or \''.$v['default_value'].'\'}}</textarea>  ';
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
         }
         //创建数字类型的前端
         if($v['front_type'] == 'number'){
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                 <input type="number" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or \''.$v['default_value'].'\'}}" class="form-control" ';
             if($v['can_null']){
                 $content .= '/>';
             }else{
                 $content .= '/>';
             }
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
         }
         //创建选择框类型的前端
         if($v['front_type'] == 'select'){
-
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                 <select class="form-control" name="'.$v['field_name'].'">';
             //开始处理option
             $front_value = $v['front_value'];
@@ -149,27 +182,47 @@ class ViewDao
                                   </select>';
 
             }
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
 
 
         }
 		//创建可以上传单个文件
         if($v['front_type'] == 'single_file'){
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                 <input type="text" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\'] or ""}}"  id="'.$v['field_name'].'" class="form-control"
                                                        style="width:400px;float: left"/>
                                                 <button type="button" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_MP3\',\''.$v['field_name'].'\',2);" class="btn btn-white">文件上传</button>';
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
         }
         //可以上传单个图片
         if($v['front_type'] == 'single_image'){
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                  <div class="webuploader-pick" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_ONE_RESOURCE\',\''.$v['field_name'].'\',1,\''
                 .$v['field_name'].'\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片
                                         </div>
                                     </div>
-                            </div>
+                            </div>                           
+                            
+                            
             ';
             $content .= '            <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
@@ -182,13 +235,25 @@ class ViewDao
                                                     <span onclick="del_img($(this))">×</span>
                                                     <input type="hidden" name="'.$v['field_name'].'" value="{{$info[\''.$v['field_name'].'\']}}">
                                                 </div>
+                                                              
+                               
+                                 @endif
                                  </div>
-                                 @endif';
+                                 ';
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
         }
 		//可以上传多个图片
         if($v['front_type'] == 'mutiple_image'){
-            $content = '
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+            $content .= '
                                  <div class="webuploader-pick" onclick="upload_resource(\''.$v['front_text'].'\',\'FT_MORE_RESOURCE\',\''.$v['field_name'].'\',1,\''
                 .$v['field_name'].'\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片(可多张)
@@ -214,18 +279,39 @@ class ViewDao
                                          </ul>                                         
                                                 
                                         </div>';
+			$content .= '
+                            </div>
+                        </div>';
             return $content;
         }
 		//可以实现富文本
         if($v['front_type'] == 'rich_text'){
+			//添加展示的label
 			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+			$content .= '
 								<script type="text/plain" id="'.$v['field_name'].'" name="'.$v['field_name'].'">{{$info["'.$v['field_name'].'"]  or "'.$v['default_value'].'"}}</script>';
+			$content .= '
+                            </div>
+                        </div>';
 			return $content;
 		}
 		//可以实现时间控件
 		if($v['front_type'] == 'datetime'){
-			$content ='
+			//添加展示的label
+			$content = '
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">';
+			$content .= $v['front_text'].'</label>
+                            <div class="col-sm-4">';
+			$content .='
 										<input placeholder="时间" class="form-control layer-date laydate-icon" id="'.$v['field_name'].'" type="text" name="'.$v['field_name'].'"	 value="{{$info[\''.$v['field_name'].'\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
+			$content .= '
+                            </div>
+                        </div>';
 			return $content;
 		}
     }
@@ -440,17 +526,10 @@ class ViewDao
             	$is_datetime = 1;
 			}
             if(empty($v['is_mutiple_lan'])){
-                //添加展示的label
-                $header .= '
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">';
-                $header .= $v['front_text'].'</label>
-                            <div class="col-sm-4">';
+
                 //根据选择不同的前端类型渲染出不同的内容
                 $header .= self::generateInputHtmlOutLanguage($v);
-                $header .= '
-                            </div>
-                        </div>';
+
             }
             //多语种字段,稍后一起处理
             else{

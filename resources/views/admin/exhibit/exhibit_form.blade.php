@@ -54,7 +54,9 @@
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片
                                         </div>
                                     </div>
-                            </div>
+                            </div>                           
+                            
+                            
                         <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-4" style="overflow: auto;width: 80%;">
@@ -64,8 +66,11 @@
                                                     <span onclick="del_img($(this))">×</span>
                                                     <input type="hidden" name="list_img" value="{{$info['list_img']}}">
                                                 </div>
-                                 </div>
+                                                              
+                               
                                  @endif
+                                 </div>
+                                 
                             </div>
                         </div>
 						 <div class="layui-tab">
