@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\Admin\Exhibit;
 
 use App\Http\Controllers\Admin\BaseAdminController;
-// 引用主表
 use App\Models\Exhibit;
-// 引用语种信息表
-use App\Models\ExhibitLanguage;
-
 
 
 /**
@@ -45,20 +41,8 @@ class ExhibitController extends BaseAdminController
 		$id = request('id');
 		$info = Exhibit::find($id);
 		if($info){
-			$info = $info->toArray();
-		}
-		
-		if($info){
-			$info['language'] = [];
-			foreach(config('language') as $k=>$v){
-				$info['language'][$k] = [];
-				$language_model = ExhibitLanguage::where('exhibit_id', $id)->where('language',$k)->first();
-				if($language_model){
-					$info['language'][$k] = $language_model->toArray();	
-				}
-			}
-		}
-		;				
+			$info->mutiple_imgs = \json_decode($info->mutiple_imgs, true);	
+		}					
 		return view('admin.exhibit.exhibit_form', ['info' => $info]);
 	}
 
@@ -71,23 +55,11 @@ class ExhibitController extends BaseAdminController
 						'exhibit_num'=>'required',]);
 		$model = Exhibit::findorNew($id);
 		$model->exhibit_num = request('exhibit_num');
-		$model->list_img = request('list_img');		
+		$model->list_img = request('list_img');
+		$model->type = request('type');
+		$model->content = request('content');
+		$model->mutiple_imgs = json_encode(request('mutiple_imgs'));		
 		$model->save();
-		//开始处理多语种
-		foreach(config('language') as $k=>$v){
-				//先删除原有数据
-				ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->first();
-				
-				$language_model = ExhibitLanguage::where('exhibit_id',$id)->where('language', $k)->first();
-				if(empty($language_model)){
-					$language_model = new ExhibitLanguage();
-				}
-				$language_model->exhibit_id = $model->exhibit_id;
-				$language_model->title=request("title_$k");
-				$language_model->content=request("content_$k");
-				$language_model->language = $k;
-				$language_model->save();
-		}
 		return $this->success(route('admin.exhibit.index'));
 	}
 

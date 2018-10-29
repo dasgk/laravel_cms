@@ -150,7 +150,7 @@
                                                         <select class='form-control' style='width: 100%' name='field_type[]' >
                                                             <option @if($item['field_type'] == 'integer') selected @endif value='integer'>整型</option>
                                                             <option @if($item['field_type'] == 'string') selected @endif  value='string'>字符串类型</option>
-                                                            <option @if($item['field_type'] == 'tinyint') selected @endif  value='tinyint'>tinyint</option>
+                                                            <option @if($item['field_type'] == 'tinyInteger') selected @endif  value='tinyInteger'>tinyInteger</option>
                                                             <option  @if($item['field_type'] == 'datetime') selected @endif  value='datetime'>时间类型</option>
                                                             <option   @if($item['field_type'] == 'text') selected @endif value='text'>text</option>
                                                             <option @if($item['field_type'] == 'longtext') selected @endif value='longtext'>长文本类型</option>
@@ -262,7 +262,7 @@
             sample += "<select class='form-control' style='width: 100%' name='field_type[]' >"
             sample += "<option value='integer'>整型</option>"
             sample += "<option value='string'>字符串类型</option>"
-            sample += "<option value='tinyint'>tinyint</option>"
+            sample += "<option value='tinyInteger'>tinyInteger</option>"
             sample += "<option value='datetime'>时间类型</option>"
             sample += "<option value='text'>text</option>"
             sample += "<option value='longtext'>长文本类型</option>"

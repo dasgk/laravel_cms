@@ -99,22 +99,22 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 			}
 			$file_content .= "\t\t" . '$table->' . $item['field_type'] . '("' . $item['field_name'] . '")->comment("' . $item['comment'] . '")';
 			//是否可以为空
-			if ($item['can_null'] && $item['field_type'] != 'text') {
+			if ($item['can_null'] || $item['field_type'] == 'text' || $item['field_type'] == 'longtext') {
 				$file_content .= '->nullable()';
 			}
 			//是否有默认值
 			//是否有默认值
-			if($item['field_type'] == 'integer'){
-				if(empty($item['default_value'])){
-					$file_content .= '->default(0)';
+			if($item['field_type'] != 'text' && $item['field_type'] != 'longtext'){
+				if($item['field_type'] == 'integer' || $item['field_type'] == 'tinyInteger'){
+					if(empty($item['default_value'])){
+						$file_content .= '->default(0)';
+					}else{
+						$file_content .= '->default(' . $item['default_value'] . ')';
+					}
 				}else{
-					$file_content .= '->default(' . $item['default_value'] . ')';
+					$file_content .= '->default("' . $item['default_value'] . '")';
 				}
-
-			}else{
-				$file_content .= '->default("' . $item['default_value'] . '")';
 			}
-
 			$file_content .= ';' . PHP_EOL;
 		}
 		//是否设置时间戳

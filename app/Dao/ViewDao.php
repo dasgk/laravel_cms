@@ -516,11 +516,16 @@ class ViewDao
 		$header .= '		<input type="hidden" value="{{$info[\''.$model->primary_id.'\'] or  \'add\'}}" name=\''.$model->primary_id.'\'/>';
 
         $is_mutiple_language = 0;
+        $is_rich_text = 0;
 		$is_datetime = 0;
         foreach ($table_struct as $v){
             if(empty($v['front_type'])){
                 continue;//如果该字段的前端类型是空，则不展示
             }
+            //如果有富文本，则需要渲染出js
+			if($v['front_type'] == 'rich_text'){
+            	$is_rich_text = 1;
+			}
             //非多语种字段
 			if($v['front_type'] == 'datetime'){
             	$is_datetime = 1;
@@ -595,7 +600,7 @@ class ViewDao
 		//处理完多语种之后，重新遍历$table_struct 是否需要进行js渲染
 		$header .= '
 @section(\'script\')';
-        if($is_mutiple_language){
+        if($is_mutiple_language || $is_rich_text){
         	//如果有多语种，则渲染出 layui
 			$header = self::ui_editor($header);
 
