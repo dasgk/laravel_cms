@@ -293,7 +293,7 @@ class ViewDao
 			$content .= $v['front_text'].'</label>
                             <div class="col-sm-4">';
 			$content .= '
-								<script type="text/plain" id="'.$v['field_name'].'" name="'.$v['field_name'].'">{{$info["'.$v['field_name'].'"]  or "'.$v['default_value'].'"}}</script>';
+								<script type="text/plain" id="'.$v['field_name'].'" name="'.$v['field_name'].'">{!!  $info["'.$v['field_name'].'"]  or "'.$v['default_value'].' " !!}</script>';
 			$content .= '
                             </div>
                         </div>';
@@ -460,7 +460,7 @@ class ViewDao
 		//可以实现富文本
 		if($v['front_type'] == 'rich_text'){
 			$content = '
-								<script type="text/plain" id="'.$v['field_name'].'_{{$k}}" name="'.$v['field_name'].'_'.'{{$k}}'.'">{{$info[\'language\'][$k]["'.$v['field_name'].'"]  or "'.$v['default_value'].'"}}</script>';
+								<script type="text/plain" id="'.$v['field_name'].'_{{$k}}" name="'.$v['field_name'].'_'.'{{$k}}'.'">{!! $info[\'language\'][$k]["'.$v['field_name'].'"]  or "'.$v['default_value'].'" !!}</script>';
 			return $content;
 		}
 	}

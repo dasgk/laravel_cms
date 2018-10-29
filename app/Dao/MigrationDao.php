@@ -104,7 +104,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 			}
 			//是否有默认值
 			//是否有默认值
-			if($item['field_type'] != 'text' && $item['field_type'] != 'longtext'){
+			if($item['field_type'] != 'text' && $item['field_type'] != 'longtext' && $item['field_type'] != 'datetime'){
 				if($item['field_type'] == 'integer' || $item['field_type'] == 'tinyInteger'){
 					if(empty($item['default_value'])){
 						$file_content .= '->default(0)';
