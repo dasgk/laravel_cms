@@ -20,8 +20,8 @@ class CreateExhibitTable extends Migration
 	{
 		Schema::create($this->tableName, function (Blueprint $table) {
 		$table->increments($this->primaryId);
-		$table->string("exhibit_num")->comment("展品编号")->default("");
-		$table->string("list_img")->comment("列表图")->nullable()->default("");
+		$table->text("content")->comment("详细内容")->nullable();
+		$table->string("video_path")->comment("视频路径")->nullable()->default("");
 		$table->timestamps();
 			if (env('DB_CONNECTION') == 'oracle') {
 				$table->comment = $this->tableComment;

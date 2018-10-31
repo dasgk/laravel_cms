@@ -42,77 +42,37 @@
 						{{csrf_field()}}
 						<input type="hidden" value="{{$info['exhibit_id'] or  'add'}}" name='exhibit_id'/>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">展品编号</label>
-                            <div class="col-sm-4">
-                                <input type="number" name="exhibit_num" value="{{$info['exhibit_num'] or ''}}" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">列表图</label>
-                            <div class="col-sm-4">
-                                 <div class="webuploader-pick" onclick="upload_resource('列表图','FT_ONE_RESOURCE','list_img',1,'list_img',1);"
-                                             style=" float: left; display: inline-block; width: auto;">点击上传图片
-                                        </div>
-                                    </div>
-                            </div>                           
-                            
-                            
-                        <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
-                                    <div id="list_img">@if($info && $info['list_img'])
-								 <div class="img-div">
-                                                    <img src="{{get_file_url($info['list_img'])}}">
-                                                    <span onclick="del_img($(this))">×</span>
-                                                    <input type="hidden" name="list_img" value="{{$info['list_img']}}">
-                                                </div>
-                                                              
-                               
-                                 @endif
-                                 </div>
-                                 
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">展品类型</label>
-                            <div class="col-sm-4">
-                                <select class="form-control" name="type">
-                                    <option value="1" @if($info && $info['type']==1) selected @endif>精品文物</option>
-                                    <option value="2" @if($info && $info['type']==2) selected @endif>普通文物</option>
-                                  </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-sm-2 control-label">详细内容</label>
                             <div class="col-sm-4">
-								<script type="text/plain" id="content" name="content">{{$info["content"]  or ""}}</script>
+								<script type="text/plain" id="content" name="content">{!!  $info["content"]  or " " !!}</script>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">详情图</label>
+                            <label class="col-sm-2 control-label">上传视频</label>
                             <div class="col-sm-4">
-                                 <div class="webuploader-pick" onclick="upload_resource('详情图','FT_MORE_RESOURCE','mutiple_imgs',1,'mutiple_imgs',1);"
-                                             style=" float: left; display: inline-block; width: auto;">点击上传图片(可多张)
-                                        </div>
-                                    </div>
+                                <input type="text" name="video_path" value="{{$info['video_path'] or ""}}"  id="video_path" class="form-control"
+                                                       style="width:400px;float: left"/>
+                                                <button type="button" onclick="upload_resource('上传视频','FT_ONE_MP3','video_path',2);" class="btn btn-white">文件上传</button>
                             </div>
+                        </div>
+						 <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                @foreach(config('language') as $k=>$g)
+                                    <li @if($k==1) class="layui-this" @endif>{{$g['name']}}</li>
+                                @endforeach
+                            </ul>
+                            <div class="layui-tab-content">
+                                @foreach(config('language') as $k=>$g)
+                                    <div class="layui-tab-item @if($k==1) layui-show @endif">
+                                 
                         <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
-                                    <div id="mutiple_imgs">
-                                        <ul id="sortable-mutiple_imgs" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
-                                                    @if(isset($info['mutiple_imgs'])&&is_array($info['mutiple_imgs'] ))
-                                                    @foreach($info['mutiple_imgs'] as $kk=>$gg)
-                                                        <div class="img-div">
-                                                            <img src="{{get_file_url($gg)}}">
-                                                            <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="mutiple_imgs[]" value="{{$gg}}">
-                                                        </div>
-                                                    @endforeach
-                                                    @endif
-                                         </ul>                                         
-                                                
-                                        </div>
+                            <label class="col-sm-2 control-label">列表图({{$g['name']}})</label>
+                            <div class="col-sm-4">
+								<script type="text/plain" id="list_img_{{$k}}" name="list_img_{{$k}}">{!! $info['language'][$k]["list_img"]  or "" !!}</script>
+							</div>
+						</div>
+        						</div>
+                                @endforeach
                             </div>
                         </div> 
  						<div class="form-group">
@@ -172,5 +132,40 @@
                 'itemid': 0
             });
           });
+		  </script>	
+			<script>
+			//编辑器路径定义
+        	var initialWidth = $(window).width() > 1366 ? 950 : 705;
+        	var initialHeight = $(window).width() > 1366 ? 350 : 200;
+        	@foreach(config('language') as $k=>$v)
+        	editor_list_img_{{$k}}= new baidu.editor.ui.Editor({
+            pasteplain: true,
+            initialFrameWidth: 950,
+            initialFrameHeight: 300,
+            wordCount: false,
+            elementPathEnabled: false,
+            autoHeightEnabled: false,
+            initialStyle: 'img{width:20%;}',
+            toolbars: [[
+                'fullscreen', 'source', '|', 'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                'directionalityltr', 'directionalityrtl', 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                'simpleupload', 'emotion', '|',
+                'horizontal', 'date', 'time', 'spechars', 'wordimage', '|',
+                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts'
+            ]]
+          });
+          editor_list_img_{{$k}}.render('list_img_{{$k}}');
+          editor_list_img_{{$k}}.ready(function () {
+          editor_list_img_{{$k}}.execCommand('serverparam', {
+                '_token': '{{csrf_token()}}',
+                'filetype': 'FT_EXHIBIT_ONE',
+                'itemid': 0
+            });
+          });
+          @endforeach
 		  </script>	
 @endsection

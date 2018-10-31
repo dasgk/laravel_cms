@@ -254,8 +254,8 @@
             });
         });
 
-        function del(this) {
-            $(this).parents('tr').remove();
+        function del(nowtd) {
+            $(nowtd).parents('tr').remove();
         }
 
         function add_new_field() {
@@ -322,6 +322,9 @@
             sample += "<td>"
             sample += "<input class='form-control' style='width: 100%' name='front_value[]' type='text'/>"
             sample +="</td>"
+            sample += " <td>";
+            sample += '<button type="button" class ="btn btn-white" onclick="del(this)"> 删除当前行 </button>'
+            sample += "</td>"
             sample += "</tr>"
             $("#filed_list").append(sample)
         }

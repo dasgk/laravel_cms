@@ -24,8 +24,7 @@ class CreateExhibitLanguageTable extends Migration
 		$table->integer("exhibit_id")->comment("主表关联")->default(0);
 
 		$table->integer("language")->comment("语种信息表")->default(1);
-		$table->string("title")->comment("标题")->nullable()->default("");
-		$table->text("content")->comment("详细内容")->nullable();
+		$table->text("list_img")->comment("列表图")->nullable();
 		$table->timestamps();
 			if (env('DB_CONNECTION') == 'oracle') {
 				$table->comment = $this->tableComment;

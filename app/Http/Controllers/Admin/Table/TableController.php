@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\UploadedFile;
 use App\Models\Users;
 use App\Models\UsersBind;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\TableModel;
@@ -90,10 +92,27 @@ class TableController extends BaseAdminController
         $model->save();
         //判断是否生成migration文件
         if(request('generate_migration')){
+        	//删除migration文件
+			$file_name =database_path('migrations'.DIRECTORY_SEPARATOR.'2018_18_18_888888_create_'.$model->table_name.'_table.php');
+			if(file_exists($file_name)){
+				unlink($file_name);
+			}
+
+			$file_language_name = database_path('migrations'.DIRECTORY_SEPARATOR.'2018_18_18_888888_create_'.$model->table_name.'_language_table.php');
+			if(file_exists($file_language_name)){
+				unlink($file_language_name);
+			}
             MigrationDao::make_migration($model);
         }
         //判断是否执行migrate
 		if(request('execute_migration')){
+        	//判断如果存在表，则将表drop掉
+			Schema::dropIfExists($model->table_name);
+			Schema::dropIfExists($model->table_name."_language");
+			//还需要删除 migration对应的行
+			DB::table('migrations')->where('migration', '2018_18_18_888888_create_'.$model->table_name.'_language_table')->delete();
+			DB::table('migrations')->where('migration', '2018_18_18_888888_create_'.$model->table_name.'_table')->delete();
+
         	$command = 'php '.base_path('artisan').' migrate';
         	exec($command);
 		}
