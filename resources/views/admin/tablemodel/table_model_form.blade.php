@@ -49,13 +49,7 @@
                                            value="{{$info['table_comment'] or ''}}" autocomplete="off"/>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">表主键</label>
-                                <div class="col-sm-3">
-                                    <input type="text" value="{{$info['primary_id'] or ''}}" class="form-control"
-                                           name="primary_id"/>
-                                </div>
-                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否支持时间戳</label>
                                 <div class="col-sm-3">

@@ -25,7 +25,7 @@ class CreateModelTable extends Migration
             $table->integer('execute_migration')->nullable()->comment('是否执行migration文件')->default(1);
             $table->integer('generate_model')->nullable()->comment('是否生成model文件')->default(1);
             $table->integer('generate_route')->nullable()->comment('是否生成route文件')->default(1);
-            $table->integer('generate_controller')->nullable()->comment('是否生成controller文件')->default(1);
+            $table->integer('is_backup_control')->nullable()->comment('是否后台控制')->default(1);
             $table->text('table_struct')->comment('模块说明');
             $table->timestamps();
         });
