@@ -25,7 +25,7 @@
                         </span>
                     @endif
                 </div>
-                @if ($captchaadminlogin)
+                @if (false && $captchaadminlogin)
                     <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
                         <input type="text" name="captcha" class="form-control" placeholder="验证码" required="" style="width: 150px; float: left;"/>
                         <img src="{{ url('cpt/show') }}" onclick="this.src='{{ url('cpt/show') }}?r=' + Math.random();" title="看不清，换一个" style="cursor:pointer;"/>

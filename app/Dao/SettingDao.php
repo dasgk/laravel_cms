@@ -35,6 +35,11 @@ class SettingDao extends Setting
 		}
 
 		if (isset(static::$settings[$skey])) {
+		    return array(
+		        'system_name'=>'后台管理系统',
+                'logo'=>'',
+                'system_version'=>'1.0',
+            );
 			return unserialize(static::$settings[$skey]);
 		} else {
 			return '';

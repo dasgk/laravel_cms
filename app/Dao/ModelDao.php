@@ -25,7 +25,7 @@ class ';
 	 */
 	private static function makeModelWithoutLanguage($model,&$content){
 		$content = self::getHeaderLines();
-		$content .= ucfirst($model->table_name).'  extends Model
+		$content .= ucfirst($model->real_model_name).'  extends Model
 {
 	protected $table = \''.$model->table_name.'\'';
 		$content .= ';
@@ -70,7 +70,7 @@ class ';
 	private static function makeModelLanguage($model, &$content){
 
 		$content = self::getHeaderLines();
-		$content .= ucfirst($model->table_name).'Language  extends Model
+		$content .= ucfirst($model->real_model_name).'Language  extends Model
 {
 	protected $table = \''.$model->table_name.'_language\'';
 		$content .= ';
@@ -110,11 +110,11 @@ class ';
     	$content = '';
     	$res = self::makeModelWithoutLanguage($model, $content);
     	$path = app_path('Models');
-    	file_put_contents($path.DIRECTORY_SEPARATOR.ucfirst($model->table_name).'.php', $content);
+    	file_put_contents($path.DIRECTORY_SEPARATOR.ucfirst($model->real_model_name).'.php', $content);
     	$content = '';
     	if($res){
     		self::makeModelLanguage($model, $content);
-			file_put_contents($path.DIRECTORY_SEPARATOR.ucfirst($model->table_name).'Language.php', $content);
+			file_put_contents($path.DIRECTORY_SEPARATOR.ucfirst($model->real_model_name).'Language.php', $content);
 		}
 	}
 }

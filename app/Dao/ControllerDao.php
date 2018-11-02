@@ -15,11 +15,11 @@ class ControllerDao
 	private static function getFileName($model)
 	{
 		$table_name = $model->table_name;
-		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . ucfirst($table_name));
+		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . ucfirst($model->real_model_name));
 		if (!file_exists($path)) {
 			mkdir($path, 0, 777);
 		}
-		$path = $path . DIRECTORY_SEPARATOR . ucfirst($table_name) . 'Controller.php';
+		$path = $path . DIRECTORY_SEPARATOR . ucfirst($model->real_model_name) . 'Controller.php';
 		return $path;
 	}
 
@@ -34,10 +34,10 @@ class ControllerDao
 		$content .= '<?php
 
 namespace App\Http\Controllers\Admin\\';
-		$content .= ucfirst($model->table_name) . ';
+		$content .= ucfirst($model->real_model_name) . ';
 
 use App\Http\Controllers\Admin\BaseAdminController;
-use App\Models\\' . ucfirst($model->table_name) . ';';
+use App\Models\\' . ucfirst($model->real_model_name) . ';';
 		$content .= '
 
 
@@ -146,13 +146,13 @@ class ExhibitController extends BaseAdminController
 		$content .= '<?php
 
 namespace App\Http\Controllers\Admin\\';
-		$content .= ucfirst($model->table_name) . ';
+		$content .= ucfirst($model->real_model_name) . ';
 
 use App\Http\Controllers\Admin\BaseAdminController;
 // 引用主表
-use App\Models\\' . ucfirst($model->table_name) . ';
+use App\Models\\' . ucfirst($model->real_model_name) . ';
 // 引用语种信息表
-use App\Models\\' . ucfirst($model->table_name) . 'Language;
+use App\Models\\' . ucfirst($model->real_model_name) . 'Language;
 ';
 
 		$content .= '
@@ -164,7 +164,7 @@ use App\Models\\' . ucfirst($model->table_name) . 'Language;
  * @author lxp
  * @package App\Http\Controllers\User
  */
-class ExhibitController extends BaseAdminController
+class '.$model->real_model_name.'Controller extends BaseAdminController
 {
 
 	public function __construct()
@@ -180,7 +180,7 @@ class ExhibitController extends BaseAdminController
 	 */
 	public function index()
 	{
-		$list = ' . ucfirst($model->table_name) . '::paginate(parent::PERPAGE);
+		$list = ' . ucfirst($model->real_model_name) . '::paginate(parent::PERPAGE);
 		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', [\'list\' => $list]);
 	}
 
@@ -192,7 +192,7 @@ class ExhibitController extends BaseAdminController
 	public function edit()
 	{
 		$id = request(\'id\');
-		$info = ' . ucfirst($model->table_name) . '::find($id);
+		$info = ' . ucfirst($model->real_model_name) . '::find($id);
 		if($info){
 			$info = $info->toArray();
 		}
@@ -213,7 +213,7 @@ class ExhibitController extends BaseAdminController
 			$info[\'language\'] = [];
 			foreach(config(\'language\') as $k=>$v){
 				$info[\'language\'][$k] = [];
-				$language_model = ' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\', $id)' . '->where(\'language\',$k)->first();
+				$language_model = ' . ucfirst($model->real_model_name) . 'Language::where(\'' . $model->table_name . '_id\', $id)' . '->where(\'language\',$k)->first();
 				if($language_model){
 					$info[\'language\'][$k] = $language_model->toArray();	
 				}
@@ -242,7 +242,7 @@ class ExhibitController extends BaseAdminController
 		//闭合validate
 		$content .= ']);';
 		$content .= '
-		$model = ' . ucfirst($model->table_name) . '::findorNew($id);';
+		$model = ' . ucfirst($model->real_model_name) . '::findorNew($id);';
 		foreach ($table_struct as $item) {
 			if (!$item['is_mutiple_lan']) {
 				if ($item['front_type'] != 'mutiple_image') {
@@ -261,13 +261,13 @@ class ExhibitController extends BaseAdminController
 		//如果是多语种,
 		$content .= '
 				//先删除原有数据
-				' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
+				' . ucfirst($model->real_model_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
 				';
 		//设置原来的数据
 		$content .= '
-				$language_model = ' . ucfirst($model->table_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
+				$language_model = ' . ucfirst($model->real_model_name) . 'Language::where(\'' . $model->table_name . '_id\',$id)->where(\'language\', $k)->first();
 				if(empty($language_model)){
-					$language_model = new '.ucfirst($model->table_name) . 'Language();'.'
+					$language_model = new '.ucfirst($model->real_model_name) . 'Language();'.'
 				}
 				';
 		$content .= '$language_model->'.$model->table_name.'_id = $model->'.$model->primary_id.';';
@@ -292,7 +292,7 @@ class ExhibitController extends BaseAdminController
 	 */
 	public function delete(){
 		$id = request(\'id\');
-		' . ucfirst($model->table_name) . '::where(\'' . $model->primary_id . '\', $id)->delete();
+		' . ucfirst($model->real_model_name) . '::where(\'' . $model->primary_id . '\', $id)->delete();
 		return $this->success(route(\'admin.' . $model->table_name . '.index\'));
 	}
 }';
