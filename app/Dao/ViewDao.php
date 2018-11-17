@@ -350,7 +350,7 @@ class ViewDao
 			$content .= $v['front_text'] . '</label>
                             <div class="col-sm-4">';
 			$content .= '
-										<input placeholder="时间" class="form-control layer-date laydate-icon" id="' . $v['field_name'] . '" type="text" name="' . $v['field_name'] . '"	 value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
+										<input placeholder="时间" autocomplete="off" class="form-control layer-date laydate-icon" id="' . $v['field_name'] . '" type="text" name="' . $v['field_name'] . '"	 value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
 			$content .= '
                             </div>
                         </div>';
@@ -566,7 +566,6 @@ class ViewDao
 		$is_mutiple_language = 0;
 		$is_rich_text = 0;
 		$is_datetime = 0;
-		$is_map_pos = 0;//是否支持位置编辑
 		foreach ($table_struct as $v) {
 			if (empty($v['front_type'])) {
 				continue;//如果该字段的前端类型是空，则不展示
@@ -591,7 +590,7 @@ class ViewDao
 		}
 		//开始处理位置信息
 		if ($model->pos_info) {
-			$is_map_pos = 1;
+
 			self::generatePosInfo($header);
 		}
 		//开始处理多语种字段
