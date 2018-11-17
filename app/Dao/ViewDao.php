@@ -165,8 +165,9 @@ class ViewDao
             //开始处理option
             $front_value = $v['front_value'];
             $front_value = explode('#',$front_value);
-            if($front_value){
+            if($front_value && is_array($front_value)){
                 foreach ($front_value as $k=>$text){
+                	if(empty($text)) continue;
                     if($k %2 == 0){
                         //表示 value
                         $content .= '
@@ -366,6 +367,7 @@ class ViewDao
 			$front_value = explode('#',$front_value);
 			if($front_value){
 				foreach ($front_value as $k=>$text){
+					if(empty($text)) continue;
 					if($k %2 == 0){
 						//表示 value
 						$content .= '
