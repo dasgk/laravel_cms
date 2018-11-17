@@ -59,6 +59,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 	 */
 	private static function generate_migration_without_language($model)
 	{
+
 		$table_name = $model->table_name;
 		$primaryId = $model->primary_id;
 		$timestamp = $model->timestamps;
@@ -117,10 +118,17 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 			}
 			$file_content .= ';' . PHP_EOL;
 		}
+		//是否支持位置信息， 添加3个字段  map_id x y
+		if($model->pos_info){
+			$file_content .= "\t\t" . '$table->integer("map_id")->nullable()->default(0)->comment("所属地图ID");'.PHP_EOL;
+			$file_content .= "\t\t" . '$table->integer("x")->nullable()->default(0)->comment("所属地图的X坐标");'.PHP_EOL;
+			$file_content .= "\t\t" . '$table->integer("y")->nullable()->default(0)->comment("所属地图的Y坐标");'.PHP_EOL;
+		}
 		//是否设置时间戳
 		if ($timestamp) {
 			$file_content .= "\t\t" . '$table->timestamps();';
 		}
+
 		//添加后续内容
 		$file_content .= '
 			if (env(\'DB_CONNECTION\') == \'oracle\') {

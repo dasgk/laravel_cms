@@ -38,6 +38,11 @@ namespace App\Http\Controllers\Admin\\';
 
 use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\\' . ucfirst($model->real_model_name) . ';';
+		if($model->pos_info) {
+			$content .= '
+			//引用地图表
+use App\Models\SvgMapTable;';
+		}
 		$content .= '
 
 
@@ -83,8 +88,15 @@ class ExhibitController extends BaseAdminController
 				$content .= '
 		if($info){
 			$info->' . $item['field_name'] . ' = \json_decode($info->' . $item['field_name'] . ', true);	
-		}	';
+		}
+		$res[\'info\'] = $info;	
+		';
 			}
+		}
+		if($model->pos_info){
+			//添加位置信息需要的地图
+			$content .= '
+			$res[\'map_info\'] = SvgMapTable::all();';
 		}
 		$content .= '				
 		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_form\', [\'info\' => $info]);
@@ -153,7 +165,13 @@ use App\Http\Controllers\Admin\BaseAdminController;
 use App\Models\\' . ucfirst($model->real_model_name) . ';
 // 引用语种信息表
 use App\Models\\' . ucfirst($model->real_model_name) . 'Language;
+
 ';
+		if($model->pos_info){
+			$content .= '
+			//引用地图表
+use App\Models\SvgMapTable;';
+		}
 
 		$content .= '
 
@@ -219,9 +237,15 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 				}
 			}
 		}
-		;';
+		$res["info"] = $info;
+		';
+		if($model->pos_info){
+			//如果支持位置信息，则添加map_info
+			$content .= '$res[\'map_info\'] = SvgMapTable::all();'
+			;
+		}
 		$content .= '				
-		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_form\', [\'info\' => $info]);
+		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_form\', $res);
 	}
 
 	/**

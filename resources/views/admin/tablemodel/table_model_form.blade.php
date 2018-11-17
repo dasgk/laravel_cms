@@ -61,6 +61,19 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否支持位置</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="pos_info">
+                                        <option @if($info && $info['pos_info'] ==1) selected @endif value="1">支持
+                                        </option>
+                                        <option @if($info && $info['pos_info'] ==0) selected @endif  value="0">不支持
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否生成migration文件</label>
                                 <div class="col-sm-3">

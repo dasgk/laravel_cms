@@ -67,6 +67,7 @@ class TableController extends BaseAdminController
         $model->generate_migration = request('generate_migration');
         $model->execute_migration = request('execute_migration');
         $model->generate_model = request('generate_model');
+		$model->pos_info = request('pos_info');
         $model->is_backup_control = request('is_backup_control');
         $table_struct = [];
         $field_name = request('field_name');
