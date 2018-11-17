@@ -34,6 +34,7 @@ class MenuDao extends BaseMdl
 	public static function get_admin_menu()
 	{
 		$base_menu = [
+			/*
 			[
 				'text' => '用户',
 				'priv' => 'user',
@@ -47,7 +48,7 @@ class MenuDao extends BaseMdl
 						'order_num' => 10,
 					],
 				]
-			],
+			],*/
             [
                 'text' => '模块管理',
                 'priv' => 'user',
