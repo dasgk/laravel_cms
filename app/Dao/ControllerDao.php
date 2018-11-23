@@ -89,17 +89,18 @@ class ExhibitController extends BaseAdminController
 		if($info){
 			$info->' . $item['field_name'] . ' = \json_decode($info->' . $item['field_name'] . ', true);	
 		}
-		$res[\'info\'] = $info;	
+		
 		';
 			}
 		}
+		$content .= '$res[\'info\'] = $info;	';
 		if($model->pos_info){
 			//添加位置信息需要的地图
 			$content .= '
 			$res[\'map_info\'] = SvgMapTable::all();';
 		}
 		$content .= '				
-		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_form\', [\'info\' => $info]);
+		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_form\', $res);
 	}
 
 	/**

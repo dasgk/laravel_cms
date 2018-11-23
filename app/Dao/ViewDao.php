@@ -97,7 +97,7 @@ class ViewDao
     <div class="col-sm-4">
         <select id="select1" name="map_id" class="form-control" required style=" width: 240px;">
             <option value="">请选择地图</option>
-            @if(isset($map_info) && is_array($map_info))
+            @if(isset($map_info) )
             @foreach($map_info as $k=>$v)
                 <option value="{{$v->id}}" title="{{$v->map_path}}" @if(isset($info[\'map_id\'])&&$info[\'map_id\']==$v->id) selected @endif >{{$v->map_name}}</option>
             @endforeach
@@ -760,6 +760,8 @@ class ViewDao
 		//渲染出位置信息需要的js
 		if($model->pos_info){
 			$header .= '
+  <script src="{{cdn(\'js/plugins/svg_map/echarts_mfy.js\')}}"></script>
+    <script src="{{cdn(\'js/plugins/svg_map/custom_map_echarts.js\')}}"></script>
     <script>
         $(\'#select1\').change(function () {
             map_id = $(\'#select1\').val();
