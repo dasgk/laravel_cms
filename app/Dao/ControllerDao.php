@@ -317,7 +317,8 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	 */
 	public function delete(){
 		$id = request(\'id\');
-		' . ucfirst($model->real_model_name) . '::where(\'' . $model->primary_id . '\', $id)->delete();
+		' . ucfirst($model->real_model_name) . '::where(\'' . $model->primary_id . '\', $id)->delete();'.PHP_EOL."\t\t".
+			ucfirst($model->real_model_name) . 'Language::where(\'' . $model->table_name . '_id\', $id)->delete();
 		return $this->success(route(\'admin.' . $model->table_name . '.index\'));
 	}
 }';

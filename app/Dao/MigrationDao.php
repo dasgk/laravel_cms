@@ -131,9 +131,9 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 
 		//添加后续内容
 		$file_content .= '
-			if (env(\'DB_CONNECTION\') == \'oracle\') {
-				$table->comment = $this->tableComment;
-			}
+		if (env(\'DB_CONNECTION\') == \'oracle\') {
+			$table->comment = $this->tableComment;
+		}
 		});
 
 		if (env(\'DB_CONNECTION\') == \'mysql\') {
@@ -200,11 +200,11 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		$file_content .= "\t" . "\t" . '$table->increments($this->primaryId);';
 		$file_content .= PHP_EOL;
 		//设置主表的关联
-		$file_content .= PHP_EOL;
+
 		$file_content .= "\t" . "\t" . '$table->integer("' . $model->table_name . '_id")->comment("主表关联")->default(0);';
 		$file_content .= PHP_EOL;
 		//设置语种表
-		$file_content .= PHP_EOL;
+
 		$file_content .= "\t" . "\t" . '$table->integer("language")->comment("语种信息表")->default(1);';
 		$file_content .= PHP_EOL;
 		foreach ($table_struct as $item) {
@@ -239,9 +239,9 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		}
 		//添加后续内容
 		$file_content .= '
-			if (env(\'DB_CONNECTION\') == \'oracle\') {
-				$table->comment = $this->tableComment;
-			}
+		if (env(\'DB_CONNECTION\') == \'oracle\') {
+			$table->comment = $this->tableComment;
+		}
 		});
 
 		if (env(\'DB_CONNECTION\') == \'mysql\') {

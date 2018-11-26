@@ -19,13 +19,12 @@ class RouteDao
     public static function makeRoute($model){
     	$file_name = self::getFileName($model);
     	$content = "";
-    	$content .= '
-    	<?php
+    	$content .= '<?php
 Route::group([
     \'prefix\' => \''.$model->table_name.'\',
     \'namespace\' => \''.ucfirst($model->table_name).'\'
 ], function () {
-    // 用户管理列表
+    
     Route::get(\'/\', \''.ucfirst($model->table_name).'Controller@index\')->name(\'admin.'.$model->table_name.'.index\');
     Route::get(\'/edit\', \''.ucfirst($model->table_name).'Controller@edit\')->name(\'admin.'.$model->table_name.'.edit\');
     Route::post(\'/save\', \''.ucfirst($model->table_name).'Controller@save\')->name(\'admin.'.$model->table_name.'.save\');

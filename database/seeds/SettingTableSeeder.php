@@ -16,7 +16,7 @@ class SettingTableSeeder extends Seeder
 			'system_name' => '后台管理系统',
 			'logo' => '',
 			'system_version' => '',
-			'captchaadminlogin' => 1
+			//'captchaadminlogin' => 1
 		]);
 	}
 }

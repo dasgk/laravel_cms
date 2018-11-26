@@ -76,9 +76,9 @@ class ViewDao
             <div class=\"col-sm-12\">
                 <div class=\"tabs-container\">
                     <ul class=\"nav nav-tabs\">
-                     <li><a href=\"{{" . 'route(\'admin.' . $model->table_name . '.index\')' . "}}\">" . $model->model_name . "列表</a></li>
-                     <li class='active'><a href=\"javascript:void(0)\">" . $model->model_name . "编辑</a></li>
-                      </ul>
+                    	<li><a href=\"{{" . 'route(\'admin.' . $model->table_name . '.index\')' . "}}\">" . $model->model_name . "列表</a></li>
+                    	<li class='active'><a href=\"javascript:void(0)\">" . $model->model_name . "编辑</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -92,36 +92,39 @@ class ViewDao
 	public static function generatePosInfo(&$header)
 	{
 		//生成位置的相关信息
-		$header .= '<div class="form-group">
-    <label class="col-sm-2 control-label">分布位置(*)：</label>
-    <div class="col-sm-4">
-        <select id="select1" name="map_id" class="form-control" required style=" width: 240px;">
-            <option value="">请选择地图</option>
-            @if(isset($map_info) )
-            @foreach($map_info as $k=>$v)
-                <option value="{{$v->id}}" title="{{$v->map_path}}" @if(isset($info[\'map_id\'])&&$info[\'map_id\']==$v->id) selected @endif >{{$v->map_name}}</option>
-            @endforeach
-            @endif
-        </select>
-    </div>
-</div>
+		$header .= '
+						<div class="form-group">
+    						<label class="col-sm-2 control-label">分布位置(*)：</label>
+    						<div class="col-sm-4">
+        						<select id="select1" name="map_id" class="form-control" required style=" width: 240px;">
+            						<option value="">请选择地图</option>
+            						@if(isset($map_info) )
+            							@foreach($map_info as $k=>$v)
+                						<option value="{{$v->id}}" title="{{$v->map_path}}" @if(isset($info[\'map_id\'])&&$info[\'map_id\']==$v->id) selected @endif >{{$v->map_name}}</option>
+            							@endforeach
+            						@endif
+        						</select>
+    						</div>
+						</div>
 ';
-		$header .= '<div class="form-group">
-    <label class="col-sm-2 control-label">点位标注(*)：</label>
-    <div class="col-sm-4 mapshow">
-        <div name="position" id="position" class="input2" _echarts_instance_="1482218387246">
-            <div style=" width: 500px; height: 245px; position: relative; overflow: hidden;">
-                <div data-zr-dom-id="bg" class="zr-element" style=" width: 500px; height: 245px;position: absolute; left: 0px; top: 0px; user-select: none;"></div>
-                <canvas width="500" height="245" data-zr-dom-id="0" class="zr-element"
-                        style=" width: 500px; height: 245px; position: absolute; left: 0px; top: 0px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
-                <canvas width="500" height="245" data-zr-dom-id="_zrender_hover_" class="zr-element"
-                        style=" width: 500px; height: 245px; position: absolute; left: 0px; top: 0px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-<input type="hidden" name="x" id="x" value="{{$info[\'x\'] or \'\'}}" class="input" placeholder="">
-<input type="hidden" name="y" id="y" value="{{$info[\'y\'] or \'\'}}" class="input" placeholder="">
+		$header .= '
+						<div class="form-group">
+							<label class="col-sm-2 control-label">点位标注(*)：</label>
+    						<div class="col-sm-4 mapshow">
+        						<div name="position" id="position" class="input2" _echarts_instance_="1482218387246">
+            						<div style=" width: 500px; height: 245px; position: relative; overflow: hidden;">
+                						<div data-zr-dom-id="bg" class="zr-element" style=" width: 500px; height: 245px;position: absolute; left: 0px; top: 0px; user-select: none;"></div>
+                							<canvas width="500" height="245" data-zr-dom-id="0" class="zr-element"
+                       							style=" width: 500px; height: 245px; position: absolute; left: 0px; top: 0px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+	                						<canvas width="500" height="245" data-zr-dom-id="_zrender_hover_" class="zr-element"
+	    	                    				style=" width: 500px; height: 245px; position: absolute; left: 0px; top: 0px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+    	    	    					
+        							</div>
+    							</div>
+							</div>
+							<input type="hidden" name="x" id="x" value="{{$info[\'x\'] or \'\'}}" class="input" placeholder="">							
+							<input type="hidden" name="y" id="y" value="{{$info[\'y\'] or \'\'}}" class="input" placeholder="">
+						</div>
 ';
 	}
 
@@ -259,33 +262,30 @@ class ViewDao
 			$content .= $v['front_text'] . '</label>
                             <div class="col-sm-4">';
 			$content .= '
-                                 <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_RESOURCE\',\'' . $v['field_name'] . '\',1,\'' . $v['field_name'] . '\',1);"
+                                <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_RESOURCE\',\'' . $v['field_name'] . '\',1,\'' . $v['field_name'] . '\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片
-                                        </div>
-                                    </div>
-                            </div>                           
-                            
-                            
+                                </div>
+                             </div>
+						</div>                 
             ';
-			$content .= '            <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
-                                    <div id="' . $v['field_name'] . '">';
-			$content .= '@if($info && $info[\'' . $v['field_name'] . '\'])';
+			$content .= '            
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label"></label>
+                        	<div class="col-sm-4" style="overflow: auto;width: 80%;">
+                        		<div id="' . $v['field_name'] . '">';
 			$content .= '
-								 <div class="img-div">
-                                                    <img src="{{get_file_url($info[\'' . $v['field_name'] . '\'])}}">
-                                                    <span onclick="del_img($(this))">×</span>
-                                                    <input type="hidden" name="' . $v['field_name'] . '" value="{{$info[\'' . $v['field_name'] . '\']}}">
-                                                </div>
-                                                              
-                               
-                                 @endif
-                                 </div>
-                                 ';
+									@if($info && $info[\'' . $v['field_name'] . '\'])';
 			$content .= '
-                            </div>
-                        </div>';
+										<div class="img-div">
+                                    		<img src="{{get_file_url($info[\'' . $v['field_name'] . '\'])}}">
+                                    		<span onclick="del_img($(this))">×</span>
+                                    		<input type="hidden" name="' . $v['field_name'] . '" value="{{$info[\'' . $v['field_name'] . '\']}}">
+                                    	</div>
+                                 	@endif
+                             	</div>';
+			$content .= '
+                        	</div>
+                     	</div>';
 			return $content;
 		}
 		//可以上传多个图片
@@ -297,32 +297,33 @@ class ViewDao
 			$content .= $v['front_text'] . '</label>
                             <div class="col-sm-4">';
 			$content .= '
-                                 <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_MORE_RESOURCE\',\'' . $v['field_name'] . '\',1,\'' . $v['field_name'] . '\',1);"
+                                <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_MORE_RESOURCE\',\'' . $v['field_name'] . '\',1,\'' . $v['field_name'] . '\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片(可多张)
-                                        </div>
-                                    </div>
+                                </div>
                             </div>
+                        </div>
             ';
-			$content .= '            <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
+			$content .= '            
+                        <div class="form-group">
+                        	<label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-4" style="overflow: auto;width: 80%;">
                                     <div id="' . $v['field_name'] . '">';
 			$content .= '
                                         <ul id="sortable-' . $v['field_name'] . '" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
-                                                    @if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
-                                                    @foreach($info[\'' . $v['field_name'] . '\'] as $kk=>$gg)
-                                                        <div class="img-div">
-                                                            <img src="{{get_file_url($gg)}}">
-                                                            <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="' . $v['field_name'] . '[]" value="{{$gg}}">
-                                                        </div>
-                                                    @endforeach
-                                                    @endif
-                                         </ul>                                         
+                                        	@if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
+                                        		@foreach($info[\'' . $v['field_name'] . '\'] as $kk=>$gg)
+                                                <div class="img-div">
+                                                	<img src="{{get_file_url($gg)}}">
+                                                	<span onclick="del_img($(this))">×</span>
+                                                	<input type="hidden" name="' . $v['field_name'] . '[]" value="{{$gg}}">
+                                              	</div>
+                                          		@endforeach
+                                          	@endif
+                               			</ul>                                         
                                                 
-                                        </div>';
+                                    </div>';
 			$content .= '
-                            </div>
+                            	</div>
                         </div>';
 			return $content;
 		}
@@ -350,7 +351,7 @@ class ViewDao
 			$content .= $v['front_text'] . '</label>
                             <div class="col-sm-4">';
 			$content .= '
-										<input placeholder="时间" autocomplete="off" class="form-control layer-date laydate-icon" id="' . $v['field_name'] . '" type="text" name="' . $v['field_name'] . '"	 value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
+								<input placeholder="时间" autocomplete="off" class="form-control layer-date laydate-icon" id="' . $v['field_name'] . '" type="text" name="' . $v['field_name'] . '"	 value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}"     style="width: 140px;" autocomplete="off">';
 			$content .= '
                             </div>
                         </div>';
@@ -370,7 +371,7 @@ class ViewDao
 		//创建文本域类型的前端
 		if ($v['front_type'] == 'text') {
 			$content = '
-                                <input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" maxlength="20" ';
+												<input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" maxlength="20" ';
 			if ($v['can_null']) {
 				$content .= '/>';
 			} else {
@@ -381,7 +382,7 @@ class ViewDao
 		//创建textarea类型的前端
 		if ($v['front_type'] == 'textarea') {
 			$content = '
-                                <textarea class="form-control" name="' . $v['field_name'] . '_{{$k}}';
+												<textarea class="form-control" name="' . $v['field_name'] . '_{{$k}}';
 			if (empty($v['can_null'])) {
 				$content .= '" >';
 			} else {
@@ -393,7 +394,7 @@ class ViewDao
 		//创建数字类型的前端
 		if ($v['front_type'] == 'number') {
 			$content = '
-                                <input type="number" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'' . $v['default_value'] . '\'}}" class="form-control" ';
+												<input type="number" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'' . $v['default_value'] . '\'}}" class="form-control" ';
 			if ($v['can_null']) {
 				$content .= '/>';
 			} else {
@@ -405,7 +406,7 @@ class ViewDao
 		if ($v['front_type'] == 'select') {
 
 			$content = '
-                                <select class="form-control" name="' . $v['field_name'] . '_{{$k}}">';
+												<select class="form-control" name="' . $v['field_name'] . '_{{$k}}">';
 			//开始处理option
 			$front_value = $v['front_value'];
 			$front_value = explode('#', $front_value);
@@ -416,7 +417,7 @@ class ViewDao
 					if ($k % 2 == 0) {
 						//表示 value
 						$content .= '
-                                    <option value="' . $text . "\"";
+													<option value="' . $text . "\"";
 						$content .= ' @if($info && $info[\'language\'][$k][\'' . $v['field_name'] . '\']==' . $text . ') selected @endif';
 						$content .= '>';
 					} else {
@@ -434,77 +435,78 @@ class ViewDao
 		//创建可以上传单个文件
 		if ($v['front_type'] == 'single_file') {
 			$content = '
-                                <input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or ""}}"  id="' . $v['field_name'] . '_' . '{{$k}}' . '" class="form-control"
+												<input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or ""}}"  id="' . $v['field_name'] . '_' . '{{$k}}' . '" class="form-control"
                                                        style="width:400px;float: left"/>
-                                <button type="button" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_MP3\',\'' . $v['field_name'] . '' . '_' . '{{$k}}' . '\',2);" class="btn btn-white">文件上传</button>';
+												<button type="button" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_MP3\',\'' . $v['field_name'] . '' . '_' . '{{$k}}' . '\',2);" class="btn btn-white">文件上传</button>';
 			return $content;
 		}
 		//可以上传单个图片
 		if ($v['front_type'] == 'single_image') {
 			$content = '
-                                 <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_RESOURCE\',\'' . $v['field_name'] . '_{{$k}}\',1,\'' . $v['field_name'] . '_{{$k}}\',1);"
+												<div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_ONE_RESOURCE\',\'' . $v['field_name'] . '_{{$k}}\',1,\'' . $v['field_name'] . '_{{$k}}\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片
-                                        </div>
-                                    </div>
-                            </div>
+												</div>
+                                    		</div>
+                            			</div>
             ';
-			$content .= '            <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
-                                    <div id="' . $v['field_name'] . '_{{$k}}">';
+			$content .= '            
+										<div class="form-group">
+                                			<label class="col-sm-2 control-label"></label>
+                                			<div class="col-sm-4" style="overflow: auto;width: 80%;">
+                                    			<div id="' . $v['field_name'] . '_{{$k}}">';
 			$content .= '
-                                        <ul id="sortable-' . $v['field_name'] . '" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
-                                                    @if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
-                                                    @foreach($info[\'language\'][$k][\'' . $v['field_name'] . '\'] as $kk=>$gg)
-                                                        <div class="img-div">
-                                                            <img src="{{get_file_url($gg)}}">
-                                                            <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="' . $v['field_name'] . '_{{$k}}' . '" value="{{$gg}}">
-                                                        </div>
-                                                    @endforeach
-                                                    @endif
-                                         </ul>
-                                 </div>';
+                                        			<ul id="sortable-' . $v['field_name'] . '" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
+                                                    	@if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
+                                                    		@foreach($info[\'language\'][$k][\'' . $v['field_name'] . '\'] as $kk=>$gg)
+                                                        		<div class="img-div">
+                                                            		<img src="{{get_file_url($gg)}}">
+                                                            		<span onclick="del_img($(this))">×</span>
+                                                            		<input type="hidden" name="' . $v['field_name'] . '_{{$k}}' . '" value="{{$gg}}">
+                                                        		</div>
+                                                    		@endforeach
+                                                    	@endif
+                                         			</ul>
+                                 				</div>';
 			return $content;
 		}
 		//可以上传多个图片
 		if ($v['front_type'] == 'mutiple_image') {
 			$content = '
-                                 <div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_MORE_RESOURCE\',\'' . $v['field_name'] . '_{{$k}}\',1,\'' . $v['field_name'] . '_{{$k}}\',1);"
+												<div class="webuploader-pick" onclick="upload_resource(\'' . $v['front_text'] . '\',\'FT_MORE_RESOURCE\',\'' . $v['field_name'] . '_{{$k}}\',1,\'' . $v['field_name'] . '_{{$k}}\',1);"
                                              style=" float: left; display: inline-block; width: auto;">点击上传图片(可多张)
-                                        </div>
-                                    </div>
-                            </div>
+		                                        </div>
+        		                            </div>
+                			            </div>
             ';
-			$content .= '            <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-4" style="overflow: auto;width: 80%;">
-                                    <div id="' . $v['field_name'] . '_{{$k}}">';
-			$content .= '
-                                        <ul id="sortable-' . $v['field_name'] . '" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
-                                                    @if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
-                                                    @foreach($info[\'language\'][$k][\'' . $v['field_name'] . '\'] as $kk=>$gg)
-                                                        <div class="img-div">
-                                                            <img src="{{get_file_url($gg)}}">
-                                                            <span onclick="del_img($(this))">×</span>
-                                                            <input type="hidden" name="' . $v['field_name'] . '_{{$k}}[]' . '" value="{{$gg}}">
-                                                        </div>
-                                                    @endforeach
-                                                    @endif
-                                         </ul>
-                                          
-                                                <script>
-                                                    $(function () {
-                                                        $("#sortable-' . $v['field_name'] . '").sortable();
-                                                    });
-                                                </script>
-                                        </div>';
+			$content .= '            
+    									<div class="form-group">
+                        					<label class="col-sm-2 control-label"></label>
+                        					<div class="col-sm-4" style="overflow: auto;width: 80%;">
+                            					<div id="' . $v['field_name'] . '_{{$k}}">';
+	$content .= '
+													<ul id="sortable-' . $v['field_name'] . '" style="list-style-type: none; margin: 0; padding: 0; width: 60%;">
+                                            			@if(isset($info[\'' . $v['field_name'] . '\'])&&is_array($info[\'' . $v['field_name'] . '\'] ))
+                                            				@foreach($info[\'language\'][$k][\'' . $v['field_name'] . '\'] as $kk=>$gg)
+                                                				<div class="img-div">
+                                                    				<img src="{{get_file_url($gg)}}">
+                                                    				<span onclick="del_img($(this))">×</span>
+                                                   					<input type="hidden" name="' . $v['field_name'] . '_{{$k}}[]' . '" value="{{$gg}}">
+                                                				</div>
+                                            				@endforeach
+                                            			@endif
+                                 					</ul>                                          
+                                        			<script>
+                                            		$(function () {
+                                                		$("#sortable-' . $v['field_name'] . '").sortable();
+                                                	});
+	                                            	</script>
+	                                        	</div>';
 			return $content;
 		}
 		//可以实现富文本
 		if ($v['front_type'] == 'rich_text') {
 			$content = '
-								<script type="text/plain" id="' . $v['field_name'] . '_{{$k}}" name="' . $v['field_name'] . '_' . '{{$k}}' . '">{!! $info[\'language\'][$k]["' . $v['field_name'] . '"]  or "' . $v['default_value'] . '" !!}</script>';
+												<script type="text/plain" id="' . $v['field_name'] . '_{{$k}}" name="' . $v['field_name'] . '_' . '{{$k}}' . '">{!! $info[\'language\'][$k]["' . $v['field_name'] . '"]  or "' . $v['default_value'] . '" !!}</script>';
 			return $content;
 		}
 	}
@@ -552,7 +554,8 @@ class ViewDao
 		$table_name = self::getFormFileName($model->table_name);
 		$table_struct = \json_decode($model->table_struct, true);
 		$header = self::generateFormHeaderContent($model);
-		$header .= '<div class="row">
+		$header .= '
+		<div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <form action="{{route(\'admin.' . $model->table_name . '.save\')}}" method="post" class="form-horizontal ajaxForm">';
@@ -597,7 +600,7 @@ class ViewDao
 		if ($is_mutiple_language) {
 			// 渲染 支持语种的layui渲染
 			$header .= '
-						 <div class="layui-tab">
+						<div class="layui-tab">
                             <ul class="layui-tab-title">
                                 @foreach(config(\'language\') as $k=>$g)
                                     <li @if($k==1) class="layui-this" @endif>{{$g[\'name\']}}</li>
@@ -613,22 +616,23 @@ class ViewDao
 				}
 				//开始进行输出lable
 				$header .= '
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">';
+										<div class="form-group">
+                            				<label class="col-sm-2 control-label">';
 				$header .= $v['front_text'] . '(' . '{{$g[\'name\']}}' . ')</label>
-                            <div class="col-sm-4">';
+											<div class="col-sm-4">';
 				//开始处理多语种
 				$header .= self::generateInputHtmlLanguage($v);
 				$header .= '
-							</div>
-						</div>';
+											</div>
+										</div>';
 			}
 			// 渲染语种的结束符
 			$header .= '
-        						</div>
+        							</div>
                                 @endforeach
                             </div>
-                        </div>';
+                        </div>
+                        ';
 		}
 		//使得html进行闭合
 		$header .= ' 
@@ -836,7 +840,8 @@ class ViewDao
                     </ul>                    
                 </div>
             </div>
-        </div>';
+        </div>
+        ';
 		// 创建列表视图
 		$content .= '
 		<div class="row">
@@ -856,8 +861,7 @@ class ViewDao
 			}
 		}
 		//添加操作功能列
-		$content .= '								<th>操作</th>
-';
+		$content .= '								<th>操作</th>';
 		// 列表头部闭合
 		$content .= '
                             </tr>
@@ -871,13 +875,11 @@ class ViewDao
 				if ($item['front_type'] == 'single_image') {
 					//单图的话，展示单图
 					$content .= '
-								<td><img style="height:100px;width:100px" src="{{$v[\'' . $item['field_name'] . '\']}}"/></td>
-';
+								<td><img style="height:100px;width:100px" src="{{$v[\'' . $item['field_name'] . '\']}}"/></td>';
 				} else {
 					//其他展示内容
 					$content .= '
-								<td>{{$v[\'' . $item['field_name'] . '\']}}</td>
-';
+								<td>{{$v[\'' . $item['field_name'] . '\']}}</td>';
 				}
 			}
 		}
@@ -891,8 +893,7 @@ class ViewDao
 		$content .= '</td>
 ';
 
-		$content .= '
-                                </tr>
+		$content .= "\t\t\t\t\t\t\t\t".'</tr>
                             @endforeach
                         </table>
                         <div class="row recordpage">
@@ -905,6 +906,8 @@ class ViewDao
                 </div>
             </div>
         </div>
+        
+    </div>
 @endsection';
 		//写入文件
 		$file_name = self::getListFileName($model->table_name);
