@@ -104,7 +104,6 @@ class Create' . ucfirst($model->real_model_name) . 'LanguageTable extends Migrat
 				$file_content .= '->nullable()';
 			}
 			//是否有默认值
-			//是否有默认值
 			if($item['field_type'] != 'text' && $item['field_type'] != 'longtext' && $item['field_type'] != 'datetime'){
 				if($item['field_type'] == 'integer' || $item['field_type'] == 'tinyInteger'){
 					if(empty($item['default_value'])){

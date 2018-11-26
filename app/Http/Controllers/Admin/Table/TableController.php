@@ -69,6 +69,9 @@ class TableController extends BaseAdminController
         $model->generate_model = request('generate_model');
 		$model->pos_info = request('pos_info');
         $model->is_backup_control = request('is_backup_control');
+        if(request('is_backup_control') && empty(request('generate_model'))){
+        	return $this->error('后台管理功能需要model的支持');
+		}
         $table_struct = [];
         $field_name = request('field_name');
         if ($field_name) {
@@ -92,6 +95,16 @@ class TableController extends BaseAdminController
         }
         $model->table_struct = json_encode($table_struct);
         $model->save();
+		$table_name = $model->table_name;
+		$str_pos = strpos($table_name, '_');
+		while (false !== $str_pos) {
+			$str_pos = strpos($table_name, '_');
+			$cur_str = substr($table_name, $str_pos, 2);
+			$a = ucfirst($cur_str[1]);
+			$table_name = str_replace($cur_str, $a, $table_name);
+			$str_pos = strpos($table_name, '_');
+		}
+		$model->real_model_name = ucfirst($table_name);
         //判断是否生成migration文件
         if (request('generate_migration')) {
             //删除migration文件
@@ -104,16 +117,7 @@ class TableController extends BaseAdminController
             if (file_exists($file_language_name)) {
                 unlink($file_language_name);
             }
-			$table_name = $model->table_name;
-			$str_pos = strpos($table_name, '_');
-			while (false !== $str_pos) {
-				$str_pos = strpos($table_name, '_');
-				$cur_str = substr($table_name, $str_pos, 2);
-				$a = ucfirst($cur_str[1]);
-				$table_name = str_replace($cur_str, $a, $table_name);
-				$str_pos = strpos($table_name, '_');
-			}
-			$model->real_model_name = ucfirst($table_name);
+
             MigrationDao::make_migration($model);
         }
         //判断是否执行migrate
@@ -130,17 +134,6 @@ class TableController extends BaseAdminController
         }
         if (request('generate_model')) {
             //需要修改下table_name
-
-            $table_name = $model->table_name;
-            $str_pos = strpos($table_name, '_');
-            while (false !== $str_pos) {
-                $str_pos = strpos($table_name, '_');
-                $cur_str = substr($table_name, $str_pos, 2);
-                $a = ucfirst($cur_str[1]);
-                $table_name = str_replace($cur_str, $a, $table_name);
-                $str_pos = strpos($table_name, '_');
-            }
-            $model->real_model_name = ucfirst($table_name);
             ModelDao::makeModel($model);
         }
         //是否后台管理
@@ -149,17 +142,6 @@ class TableController extends BaseAdminController
             ViewDao::makeListView($model);
             ViewDao::makeFormView($model);
             //生成controller
-			$table_name = $model->table_name;
-			$str_pos = strpos($table_name, '_');
-			while (false !== $str_pos) {
-				$str_pos = strpos($table_name, '_');
-				$cur_str = substr($table_name, $str_pos, 2);
-				$a = ucfirst($cur_str[1]);
-				$table_name = str_replace($cur_str, $a, $table_name);
-				$str_pos = strpos($table_name, '_');
-			}
-			$model->real_model_name = ucfirst($table_name);
-
             ControllerDao::makeController($model);
             //生成route
             RouteDao::makeRoute($model);
