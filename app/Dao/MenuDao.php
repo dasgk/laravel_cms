@@ -49,20 +49,20 @@ class MenuDao extends BaseMdl
 					],
 				]
 			],*/
-            [
-                'text' => '模块管理',
-                'priv' => 'user',
-                'icon' => 'fa fa-user',
-                'order_num' => 10,
-                'nodes' => [
-                    [
-                        'text' => '表管理',
-                        'url' => route('admin.table.index'),
-                        'priv' => 'admin-table-table',
-                        'order_num' => 10,
-                    ],
-                ]
-            ],
+			[
+				'text' => '模块管理',
+				'priv' => 'user',
+				'icon' => 'fa fa-user',
+				'order_num' => 10,
+				'nodes' => [
+					[
+						'text' => '表管理',
+						'url' => route('admin.table.index'),
+						'priv' => 'admin-table-table',
+						'order_num' => 10,
+					],
+				]
+			],
 			[
 				'text' => '设置',
 				'priv' => 'setting',
@@ -101,50 +101,6 @@ class MenuDao extends BaseMdl
 					]
 				]
 			],
-			/*[
-				'text' => '文件管理',
-				'priv' => 'file',
-				'order_num' => 11,
-				'nodes' => [
-					[
-						'text' => '文件列表',
-						'url' => route('admin.file.file'),
-						'priv' => 'admin-file-file',
-						'order_num' => 10,
-					],
-					[
-						'text' => '资源上传',
-						'url' => route('admin.file.file.upload_resource'),
-						'priv' => 'admin-file-file:multiupload',
-						'order_num' => 10,
-					]
-				]
-			],
-			[
-				'text' => '文章管理',
-				'priv' => 'article',
-				'order_num' => 12,
-				'nodes' => [
-					[
-						'text' => '文章列表',
-						'url' => route('admin.article.article'),
-						'priv' => 'admin-article-article',
-						'order_num' => 10,
-					],
-					[
-						'text' => '文章分类',
-						'url' => route('admin.article.acategory'),
-						'priv' => 'admin-article-acategory',
-						'order_num' => 10,
-					],
-					[
-						'text' => '评论列表',
-						'url' => route('admin.article.comment'),
-						'priv' => 'admin-article-comment',
-						'order_num' => 10,
-					]
-				]
-			]*/
 		];
 
 		//功能模块配置加载
@@ -189,5 +145,36 @@ class MenuDao extends BaseMdl
 			$new_array[$k] = $arr[$k];
 		}
 		return $new_array;
+	}
+
+	/**
+	 * 创建菜单文件
+	 *
+	 * @param $model
+	 */
+	public static function makeMenu($model)
+	{
+
+		$file_path = app_path('..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'load_menu' . DIRECTORY_SEPARATOR . $model->table_name . '_auto_menu.php');
+
+		$content = '
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Zjy
+ * Date: '.date("Y-m-d", time()).'
+ * Time: '.date("H:i", time()).'
+ */
+return [
+	\'text\' => \''.$model->model_name.'管理\',
+	\'url\' => \'/\'.'.'env(\'ADMIN_ENTRANCE\',\'admin\').'.'\'/'.strtolower($model->real_model_name).'/\',
+	\'priv\' => \'admin-'.strtolower($model->real_model_name).'-'.strtolower($model->real_model_name).'\',
+	\'order_num\' => 10,
+];
+		';
+		if (file_exists($file_path)) {
+			unlink($file_path);
+		}
+		file_put_contents($file_path, $content);
 	}
 }

@@ -128,4 +128,21 @@ if(file_exists($base_path.'navigation_menu.php')){
 if(file_exists($base_path.'load_menu.php')){
 	$arr['update']['setting'][]=include $base_path.'load_menu.php';
 }
+if(is_dir($base_path)){
+	if ($dh = opendir($base_path)) {
+		while (($file= readdir($dh)) !== false){
+			if((is_dir($base_path."/".$file)) && $file!="." && $file!=".."){
+				continue;
+			} else{
+
+
+				if($file!="." && $file!=".." && false !== strpos($file,'_auto_menu.php')){
+
+					$arr['add'][] = include $base_path.$file;
+				}
+			}
+		}
+		closedir($dh);
+	}
+}//判断得到自己的文件
 return $arr;

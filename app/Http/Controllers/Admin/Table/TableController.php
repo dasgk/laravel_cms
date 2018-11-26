@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Table;
 
 use App\Dao\ControllerDao;
+use App\Dao\MenuDao;
 use App\Dao\MigrationDao;
 use App\Dao\ModelDao;
 use App\Dao\RouteDao;
@@ -146,6 +147,7 @@ class TableController extends BaseAdminController
             //生成route
             RouteDao::makeRoute($model);
             //生成menu
+			MenuDao::makeMenu($model);
         }
         return $this->success(route('admin.table.index'));
     }
