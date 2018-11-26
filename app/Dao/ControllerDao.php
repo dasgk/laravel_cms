@@ -70,7 +70,9 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	public function index()
 	{
 		$list = ' . ucfirst($model->real_model_name) . '::paginate(parent::PERPAGE);
-		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', [\'list\' => $list]);
+		$list->appends(app(\'request\')->all());
+		$res["list"] = $list;
+		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', $res);
 	}
 
 	/**
@@ -201,7 +203,9 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	public function index()
 	{
 		$list = ' . ucfirst($model->real_model_name) . '::paginate(parent::PERPAGE);
-		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', [\'list\' => $list]);
+		$list->appends(app(\'request\')->all());
+		$res["list"] = $list;
+		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', $res);
 	}
 
 	/**
