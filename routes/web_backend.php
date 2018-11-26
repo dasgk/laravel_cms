@@ -17,6 +17,9 @@ Route::group([
 	'namespace' => 'Admin',
 	'middleware' => 'auth.admin',
 ], function () {
+
+	Route::get('welcome', 'HomeController@welcome')->name('admin.welcome');
+
 	// Ajax上传图片 - 后台通用
 	Route::post('upload', 'UploadController@uploadimg')->name('admin.upload');
 	// 管理员修改密码

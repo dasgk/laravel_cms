@@ -47,13 +47,12 @@ class AuthServiceProvider extends ServiceProvider
 				], strtolower($actionMatch[1]));
 				// 取得当前访问的方法，用于以后控制权限
 				$action = strtolower($actionMatch[2]);
-
 				// 临时匹配控制器的所有方法
 				$actionName .= ':*';
 			}
 
 			// 首页都有权限访问
-			
+
 			if ($actionName == 'admin-home' || $actionName == 'admin-home:*' || $actionName =='admin-setting-adminusers:*') {
 				return true;
 			}

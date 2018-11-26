@@ -65,7 +65,7 @@
         <div id="page-wrapper" class="gray-bg dashbard-1">
 
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="rIframe" id="rIframe" width="100%" height="100%" frameborder="0" src="{{route('admin.user.users')}}"></iframe>
+                <iframe class="J_iframe" name="rIframe" id="rIframe" width="100%" height="100%" frameborder="0" src="{{route('admin.welcome')}}"></iframe>
             </div>
         </div>
         <!--右侧部分结束-->
