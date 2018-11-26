@@ -148,7 +148,7 @@ class ViewDao
 			$content .= '
                                 <input type="text" name="' . $v['field_name'] . '" value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" ';
 			if($v['max_length']){
-				$content .= 'maxlength="'.$v['max_length'].'" ';
+				$content .= ' maxlength="'.$v['max_length'].'" ';
 			}
 			if ($v['can_null']) {
 				$content .= '/>';
@@ -170,6 +170,9 @@ class ViewDao
                             <div class="col-sm-4">';
 			$content .= '
                                 <textarea class="form-control" name="' . $v['field_name'];
+			if($v['max_length']){
+				$content .= ' maxlength="'.$v['max_length'].'" ';
+			}
 			if (empty($v['can_null'])) {
 				$content .= '" >';
 			} else {
@@ -389,6 +392,9 @@ class ViewDao
 		if ($v['front_type'] == 'textarea') {
 			$content = '
 												<textarea class="form-control" name="' . $v['field_name'] . '_{{$k}}';
+			if($v['max_length']){
+				$content .= ' maxlength="'.$v['max_length'].'" ';
+			}
 			if (empty($v['can_null'])) {
 				$content .= '" >';
 			} else {
