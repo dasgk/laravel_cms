@@ -524,6 +524,7 @@ class FileController extends BaseAdminController
 		$mimeArray['zip'] = 'application/zip';
 		$mimeArray['rar'] = 'application/x-rar-compressed';
 		$mimeArray['mp3'] = 'audio/mpeg';
+		$mimeArray['ogg'] = 'audio/ogg';
 		$mimeArray["doc"] = "application/msword";
 		$mimeArray["docx"] = "application/msword";
 		$mimeArray["pdf"] = "application/pdf";

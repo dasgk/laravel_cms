@@ -90,6 +90,14 @@ class UploadedTypeTableSeeder extends Seeder
 				'allow_type' => 'mp3',
 				'allow_size' => 1024 * 1024 * 20,
 				'allow_num' => 1
+			],
+			[
+				'type_key' => 'FT_ONE_OGG',
+				'path' => 'ogg',
+				'desc' => '大屏音频上传',
+				'allow_type' => 'ogg',
+				'allow_size' => 1024 * 1024 * 20,
+				'allow_num' => 1
 			]
 		]);
 	}
