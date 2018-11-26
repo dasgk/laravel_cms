@@ -104,41 +104,41 @@ class SystemlogController extends BaseAdminController
 
 		$forward_line = request('forward_line', 20);
 		$backward_line = request('backward_line', 20);
-
 		$filecontents = [];
+		//找出第几行是开始时间
+		$start_time = request('start_time');
+		$real_start_bytecount = 0;
+		if ($start_time) {
+			$fp = fopen($filepath, 'r');
+			while (!feof($fp)) {
+				// 在要求行数内取得数据
+				$raw_input = fgets($fp);
+				$tmp = trim($raw_input);
+				$tmp = json_decode($tmp, true);
+				if ($tmp['time'] >= $start_time) {
+					break;
+				} else {
+					$real_start_bytecount += strlen($raw_input);
+				}
+			}
+			fclose($fp);
+		}
 		// 只读方式打开文件
 		$fp = fopen($filepath, 'r');
+		//移动到需要的位置
+		fseek($fp, $real_start_bytecount, SEEK_SET);
 		$line = 0;
 		while (!feof($fp)) {
 			$line++;
 			if ($line >= $start_line && $line <= $end_line) {
 				// 在要求行数内取得数据
-				$filecontents[] = trim(fgets($fp));
+				$tmp = trim(fgets($fp));
+				$filecontents[] = $tmp;
 			} else {
 				fgets($fp);
 			}
 		}
-
-		// 倒序查询
-		//		fseek($fp, -1, SEEK_END);
-		//		$n = 5;
-		//		while ($n) {
-		//			$c = fgetc($fp);
-		//			switch ($c) {
-		//				case "\r":
-		//				case "\n":
-		//					$fc = fgets($fp);
-		//					if (trim($fc)) {
-		//						$filecontents[] = trim($fc);
-		//						fseek($fp, 0 - strlen($fc), SEEK_CUR);
-		//						$n--;
-		//					}
-		//					break;
-		//			}
-		//			fseek($fp, -2, SEEK_CUR);
-		//		}
 		fclose($fp);
-
 		if (isset($filecontents[0]) && is_json($filecontents[0])) {
 			return view('admin.setting.systemlog_view_c', [
 				'filepath' => $filepath,

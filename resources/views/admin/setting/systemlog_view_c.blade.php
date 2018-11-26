@@ -28,6 +28,9 @@
                             <div class="form-group">
                                 结束行数 <input class="form-control" type="text" name="end_line" id="end_line" value="{{$end_line}}" size="10">
                             </div>
+                            <div class="form-group">
+                                开始时间 <input class="form-control" type="text" name="start_time" >
+                            </div>
                             &nbsp;&nbsp;
                             <button type="submit" class="btn btn-primary">查询</button>
                             &nbsp;&nbsp;&nbsp;&nbsp;
