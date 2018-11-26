@@ -86,6 +86,7 @@ class TableController extends BaseAdminController
                 $item['front_type'] = request('front_type')[$k];
                 $item['front_text'] = request('front_text')[$k];
                 $item['front_value'] = request('front_value')[$k];
+				$item['max_length'] = request('max_length')[$k];
                 $table_struct[] = $item;
             }
         }
@@ -138,6 +139,9 @@ class TableController extends BaseAdminController
             ViewDao::makeListView($model);
             ViewDao::makeFormView($model);
             //生成controller
+			$table_name = $model->table_name;
+			$model->real_model_name = ucfirst($table_name);
+
             ControllerDao::makeController($model);
             //生成route
             RouteDao::makeRoute($model);

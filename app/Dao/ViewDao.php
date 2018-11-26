@@ -146,7 +146,10 @@ class ViewDao
 			$content .= $v['front_text'] . '</label>
                             <div class="col-sm-4">';
 			$content .= '
-                                <input type="text" name="' . $v['field_name'] . '" value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" maxlength="20" ';
+                                <input type="text" name="' . $v['field_name'] . '" value="{{$info[\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" ';
+			if($v['max_length']){
+				$content .= 'maxlength="'.$v['max_length'].'" ';
+			}
 			if ($v['can_null']) {
 				$content .= '/>';
 			} else {
@@ -371,7 +374,10 @@ class ViewDao
 		//创建文本域类型的前端
 		if ($v['front_type'] == 'text') {
 			$content = '
-												<input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" maxlength="20" ';
+												<input type="text" name="' . $v['field_name'] . '_' . '{{$k}}' . '" value="{{$info[\'language\'][$k][\'' . $v['field_name'] . '\'] or \'\'}}" class="form-control" ';
+			if($v['max_length']){
+				$content .= 'maxlength="'.$v['max_length'].'" ';
+			}
 			if ($v['can_null']) {
 				$content .= '/>';
 			} else {

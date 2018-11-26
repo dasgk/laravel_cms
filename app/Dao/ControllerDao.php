@@ -15,11 +15,11 @@ class ControllerDao
 	private static function getFileName($model)
 	{
 		$table_name = $model->table_name;
-		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . ucfirst($model->real_model_name));
+		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . ucfirst($model->table_name));
 		if (!file_exists($path)) {
 			mkdir($path, 0, 777);
 		}
-		$path = $path . DIRECTORY_SEPARATOR . ucfirst($model->real_model_name) . 'Controller.php';
+		$path = $path . DIRECTORY_SEPARATOR . ucfirst($model->table_name) . 'Controller.php';
 		return $path;
 	}
 
@@ -30,6 +30,7 @@ class ControllerDao
 	 */
 	private static function getControllerContentWithoutLanguage($model, &$content)
 	{
+
 		//写明命名空间
 		$content .= '<?php
 
@@ -52,7 +53,7 @@ use App\Models\SvgMapTable;';
  * @author lxp
  * @package App\Http\Controllers\User
  */
-class ExhibitController extends BaseAdminController
+class '.$model->real_model_name.'Controller extends BaseAdminController
 {
 
 	public function __construct()

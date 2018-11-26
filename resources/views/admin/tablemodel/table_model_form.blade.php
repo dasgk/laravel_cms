@@ -133,16 +133,17 @@
                                 <div class="col-sm-3" style="width:80%">
                                     <table class="table">
                                         <thead>
-                                        <td style="width:10%">字段名称</td>
-                                        <td style="width:10%">数据类型</td>
-                                        <td style="width:10%">是否可以为空</td>
-                                        <td style="width:10%">注释</td>
-                                        <td style="width:10%">默认值</td>
-                                        <td style="width:10%">是否是多语种字段</td>
-                                        <td style="width:10%">前端类型</td>
-                                        <td style="width:10%">前端文案</td>
-                                        <td style="width:10%">前端值（目前只对select有效1#打开2#关闭）</td>
-                                        <td style="width:10%"> 操作</td>
+                                        <td style="width:9%">字段名称</td>
+                                        <td style="width:9%">数据类型</td>
+                                        <td style="width:9%">是否可以为空</td>
+                                        <td style="width:9%">注释</td>
+                                        <td style="width:9%">默认值</td>
+                                        <td style="width:9%">是否是多语种字段</td>
+                                        <td style="width:9%">前端类型</td>
+                                        <td style="width:9%">数据最大长度(只对string有效)</td>
+                                        <td style="width:9%">前端文案</td>
+                                        <td style="width:9%">前端值（目前只对select有效1#打开2#关闭）</td>
+                                        <td style="width:9%"> 操作</td>
                                         </thead>
                                         <tbody id="filed_list">
                                         @if($table_struct)
@@ -202,6 +203,11 @@
                                                         <option @if($item['front_type'] == 'single_image') selected @endif  value='single_image'>单图</option>
                                                         <option  @if($item['front_type'] == 'mutiple_image') selected @endif  value='mutiple_image'>多图</option>
                                                     </select>
+                                                </td>
+                                                <!-- 数据最大长度-->
+                                                <td>
+                                                    <input class='form-control' value="{{$item['max_length']}}"
+                                                           style='width: 100%' name='max_length[]' type='number'/>
                                                 </td>
                                                     <!--前端文案-->
                                                     <td>
@@ -321,6 +327,10 @@
             sample += "<option value='datetime'>时间类型</option>"
             sample += "</select>"
             sample += "</td>"
+            //数据最大长度
+            sample += "<td>"
+            sample += "<input class='form-control' style='width: 100%' name='max_length[]' type='number'/>"
+            sample +="</td>"
             //前端文案
             sample += "<td>"
             sample += "<input class='form-control' style='width: 100%' name='front_text[]' type='text'/>"
