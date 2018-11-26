@@ -14,12 +14,12 @@ class ControllerDao
 	 */
 	private static function getFileName($model)
 	{
-		$table_name = $model->table_name;
-		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . ucfirst($model->table_name));
+		$table_name = $model->real_model_name;
+		$path = app_path('Http' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR .$table_name);
 		if (!file_exists($path)) {
 			mkdir($path, 0, 777);
 		}
-		$path = $path . DIRECTORY_SEPARATOR . ucfirst($model->table_name) . 'Controller.php';
+		$path = $path . DIRECTORY_SEPARATOR . $table_name . 'Controller.php';
 		return $path;
 	}
 
@@ -69,7 +69,7 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	 */
 	public function index()
 	{
-		$list = ' . ucfirst($model->table_name) . '::paginate(parent::PERPAGE);
+		$list = ' . ucfirst($model->real_model_name) . '::paginate(parent::PERPAGE);
 		return view(\'admin.' . $model->table_name . '.' . $model->table_name . '_list\', [\'list\' => $list]);
 	}
 
@@ -81,7 +81,7 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	public function edit()
 	{
 		$id = request(\'id\');
-		$info = ' . ucfirst($model->table_name) . '::find($id);';
+		$info = ' . ucfirst($model->real_model_name) . '::find($id);';
 		//判断如果是多图的话，就进行解码
 		$table_struct = json_decode($model->table_struct, true);
 		foreach ($table_struct as $item) {
@@ -121,7 +121,7 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 		//闭合validate
 		$content .= ']);';
 		$content .= '
-		$model = ' . ucfirst($model->table_name) . '::findorNew($id);';
+		$model = ' .$model->real_model_name . '::findorNew($id);';
 		foreach ($table_struct as $item) {
 			if ($item['front_type'] != 'mutiple_image') {
 				$content .= '
@@ -141,7 +141,7 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	 */
 	public function delete(){
 		$id = request(\'id\');
-		' . ucfirst($model->table_name) . '::where(\'' . $model->primary_id . '\', $id)->delete();
+		' . $model->real_model_name . '::where(\'' . $model->primary_id . '\', $id)->delete();
 		return $this->success(route(\'admin.' . $model->table_name . '.index\'));
 	}
 }';

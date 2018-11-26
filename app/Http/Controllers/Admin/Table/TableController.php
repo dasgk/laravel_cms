@@ -104,6 +104,16 @@ class TableController extends BaseAdminController
             if (file_exists($file_language_name)) {
                 unlink($file_language_name);
             }
+			$table_name = $model->table_name;
+			$str_pos = strpos($table_name, '_');
+			while (false !== $str_pos) {
+				$str_pos = strpos($table_name, '_');
+				$cur_str = substr($table_name, $str_pos, 2);
+				$a = ucfirst($cur_str[1]);
+				$table_name = str_replace($cur_str, $a, $table_name);
+				$str_pos = strpos($table_name, '_');
+			}
+			$model->real_model_name = ucfirst($table_name);
             MigrationDao::make_migration($model);
         }
         //判断是否执行migrate
@@ -140,6 +150,14 @@ class TableController extends BaseAdminController
             ViewDao::makeFormView($model);
             //生成controller
 			$table_name = $model->table_name;
+			$str_pos = strpos($table_name, '_');
+			while (false !== $str_pos) {
+				$str_pos = strpos($table_name, '_');
+				$cur_str = substr($table_name, $str_pos, 2);
+				$a = ucfirst($cur_str[1]);
+				$table_name = str_replace($cur_str, $a, $table_name);
+				$str_pos = strpos($table_name, '_');
+			}
 			$model->real_model_name = ucfirst($table_name);
 
             ControllerDao::makeController($model);

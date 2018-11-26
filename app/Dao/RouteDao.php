@@ -21,14 +21,14 @@ class RouteDao
     	$content = "";
     	$content .= '<?php
 Route::group([
-    \'prefix\' => \''.$model->table_name.'\',
-    \'namespace\' => \''.ucfirst($model->table_name).'\'
+    \'prefix\' => \''.strtolower($model->real_model_name).'\',
+    \'namespace\' => \''.ucfirst($model->real_model_name).'\'
 ], function () {
     
-    Route::get(\'/\', \''.ucfirst($model->table_name).'Controller@index\')->name(\'admin.'.$model->table_name.'.index\');
-    Route::get(\'/edit\', \''.ucfirst($model->table_name).'Controller@edit\')->name(\'admin.'.$model->table_name.'.edit\');
-    Route::post(\'/save\', \''.ucfirst($model->table_name).'Controller@save\')->name(\'admin.'.$model->table_name.'.save\');
-    Route::get(\'/delete\', \''.ucfirst($model->table_name).'Controller@delete\')->name(\'admin.'.$model->table_name.'.delete\');
+    Route::get(\'/\', \''.$model->real_model_name.'Controller@index\')->name(\'admin.'.$model->table_name.'.index\');
+    Route::get(\'/edit\', \''.$model->real_model_name.'Controller@edit\')->name(\'admin.'.$model->table_name.'.edit\');
+    Route::post(\'/save\', \''.$model->real_model_name.'Controller@save\')->name(\'admin.'.$model->table_name.'.save\');
+    Route::get(\'/delete\', \''.$model->real_model_name.'Controller@delete\')->name(\'admin.'.$model->table_name.'.delete\');
 
 });';
     	file_put_contents($file_name,$content);

@@ -28,7 +28,7 @@ class MigrationDao
 	/**
 	 * 获得migration文件的前几行
 	 */
-	private static function generate_first_lines($table_name, $language = 0)
+	private static function generate_first_lines($table_name, $language = 0, $model)
 	{
 		$content = '<?php
 
@@ -39,13 +39,13 @@ use Illuminate\Support\Facades\DB;';
 		if (!$language) {
 			$content .= '	
 
-class Create' . ucfirst($table_name) . 'Table extends Migration
+class Create' .$model->real_model_name . 'Table extends Migration
 {
 	private $tableName = ';
 		} else {
 			$content .= '	
 
-class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
+class Create' . ucfirst($model->real_model_name) . 'LanguageTable extends Migration
 {
 	private $tableName = ';
 		}
@@ -65,7 +65,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		$timestamp = $model->timestamps;
 		$table_comment = $model->table_comment;
 		$table_struct = \json_decode($model->table_struct, true);
-		$file_content = self::generate_first_lines($table_name);
+		$file_content = self::generate_first_lines($table_name,0, $model);
 
 		//添加表名称定义
 		$file_content .= '"' . $table_name . '";';
@@ -172,7 +172,7 @@ class Create' . ucfirst($table_name) . 'LanguageTable extends Migration
 		$timestamp = $model->timestamps;
 		$table_comment = $model->table_comment . '语种信息';
 		$table_struct = \json_decode($model->table_struct, true);
-		$file_content = self::generate_first_lines($model->table_name, 1);
+		$file_content = self::generate_first_lines($model->table_name, 1, $model);
 
 		//添加表名称定义
 		$file_content .= '"' . $model->table_name . '_language";';
