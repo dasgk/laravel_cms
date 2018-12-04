@@ -125,6 +125,10 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 		$content .= '
 		$model = ' .$model->real_model_name . '::findorNew($id);';
 		foreach ($table_struct as $item) {
+			if(empty($item['front_type'])){
+				//前端不显示，则不在save之列
+				continue;
+			}
 			if ($item['front_type'] != 'mutiple_image') {
 				$content .= '
 		$model->' . $item['field_name'] . ' = request(\'' . $item['field_name'] . '\');';

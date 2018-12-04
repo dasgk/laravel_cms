@@ -703,7 +703,9 @@
 
         //导出问卷结果
         function export_ques(id) {
-            window.location = "{{route('admin.question.ques_export')}}?id=" + id;
+            $.ajax({ url: "{{route('admin.question.ques_export')}}?id=" + id, context: document.body, success: function(data){
+                    window.location = data.data;
+                }});
         }
     </script>
 

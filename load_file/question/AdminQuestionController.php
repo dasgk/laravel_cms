@@ -143,7 +143,12 @@ class QuestionController extends BaseAdminController
 				$error['msg'] = '参数错误';
 				return $error;
 			}
-
+			$language = \request('language');
+			if(empty($language) || empty($title)){
+				$error['status'] = 'false';
+				$error['msg'] = '请填写完整信息后提交';
+				return $error;
+			}
 			$data['title'] = $title;
 			$data['language'] = request("language");
 			$data['description'] = $description;
@@ -671,20 +676,16 @@ class QuestionController extends BaseAdminController
 			$filename = $title . $fileext;
 			$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 			// 文件保存路径
-			$path = preg_replace('(/+)', '/', storage_path('/tempdoc'));
+			$path = preg_replace('(/+)', '/', public_path('/tempdoc'));
 			if (!is_dir($path)) {
 				@mkdir($path, 0755, true);
 			}
-			$pathToFile = $path . '/' . substr(md5($filename), 0, 10) . date('YmdHis') . rand(1000, 9999) . $fileext;
+			$filename = substr(md5($filename), 0, 10) . date('YmdHis') . rand(1000, 9999) . $fileext;
+			$pathToFile = $path . '/' . $filename;
 			$objWriter->save($pathToFile);
 
 			if (file_exists($pathToFile)) {
-				$headers = [
-					'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-					'Content-Length' => filesize($pathToFile),
-					'Content-Disposition' => 'attachment; filename="' . $filename . '"'
-				];
-				return response()->download($pathToFile, $filename, $headers);
+				return response_json(1,get_file_url('/tempdoc/'.$filename));
 			} else {
 				return response_json(0, [], '导出错误，请刷新页面后重试');
 			}
