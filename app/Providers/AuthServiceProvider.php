@@ -53,7 +53,7 @@ class AuthServiceProvider extends ServiceProvider
 
 			// 首页都有权限访问
 
-			if ($actionName == 'admin-home' || $actionName == 'admin-home:*' || $actionName =='admin-setting-adminusers:*') {
+			if ($actionName == 'admin-home' || $actionName == 'admin-home:*' || $actionName =='admin-setting-adminusers:*'|| $actionName == 'admin-file-file:*') {
 				return true;
 			}
 

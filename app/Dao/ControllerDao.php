@@ -137,6 +137,14 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 		$model->' . $item['field_name'] . ' = json_encode(request(\'' . $item['field_name'] . '\'));';
 			}
 		}
+		if($model->pos_info){
+			//如果支持位置信息
+			$content .= '
+		$model->map_id = request("map_id");
+		$model->x = request("x");
+		$model->y = request("y");
+			';
+		}
 		$content .= '		
 		$model->save();
 		return $this->success(route(\'admin.' . $model->table_name . '.index\'));

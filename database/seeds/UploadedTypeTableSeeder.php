@@ -98,6 +98,22 @@ class UploadedTypeTableSeeder extends Seeder
 				'allow_type' => 'ogg',
 				'allow_size' => 1024 * 1024 * 20,
 				'allow_num' => 1
+			],
+			[
+				'type_key' => 'FT_SVGMAP',
+				'path' => 'svg',
+				'desc' => 'svg地图上传',
+				'allow_type' => 'svg',
+				'allow_size' => 1024 * 1024 * 20,
+				'allow_num' => 1
+			],
+			[
+				'type_key' => 'FT_PNGMAP',
+				'path' => 'png',
+				'desc' => '地图png上传',
+				'allow_type' => 'png',
+				'allow_size' => 1024 * 1024 * 20,
+				'allow_num' => 1
 			]
 		]);
 	}

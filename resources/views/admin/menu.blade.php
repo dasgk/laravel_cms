@@ -56,6 +56,7 @@
     $(".nochild").on("click",function(){
         $(".data-a").removeClass("active");
         $(".parent-li").removeClass("active").find("a").attr("aria-expanded","false");
+        $(this).parent().addClass("active");
         $(".nav-second-level").removeClass("in").attr("aria-expanded","false");
     })
 </script>
