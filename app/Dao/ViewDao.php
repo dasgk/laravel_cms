@@ -711,7 +711,7 @@ class ViewDao
           editor_' . $v['field_name'] . '_{{$k}}.ready(function () {
           editor_' . $v['field_name'] . '_{{$k}}.execCommand(\'serverparam\', {
                 \'_token\': \'{{csrf_token()}}\',
-                \'filetype\': \'FT_EXHIBIT_ONE\',
+                \'filetype\': \'FT_ONE_RESOURCE\',
                 \'itemid\': 0
             });
           });
