@@ -50,4 +50,5 @@ class Users extends Authenticatable
 	{
 		return $this->phone;
 	}
+	protected $fillable = ['status'];
 }
