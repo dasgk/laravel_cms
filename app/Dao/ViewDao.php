@@ -178,7 +178,7 @@ class ViewDao
 			} else {
 				$content .= '" >';
 			}
-			$content .= '{{$info[\'exhibit_num\'] or \'' . $v['default_value'] . '\'}}</textarea>  ';
+			$content .= '{{$info[\''.$v['field_name'].'\'] or \'' . $v['default_value'] . '\'}}</textarea>  ';
 			$content .= '
                             </div>
                         </div>';

@@ -110,7 +110,7 @@ class '.$model->real_model_name.'Controller extends BaseAdminController
 	 * 保存内容
 	 */
 	public function save(){
-		$id = request(\'exhibit_id\');';
+		$id = request(\''.$model->primary_id.'\');';
 		//增加判断validate
 		$content .= '
 		$this->validate(request(), [';
