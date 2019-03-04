@@ -171,7 +171,7 @@ class ViewDao
 			$content .= '
                                 <textarea class="form-control" name="' . $v['field_name'];
 			if($v['max_length']){
-				$content .= ' maxlength="'.$v['max_length'].'" ';
+				$content .= '" maxlength="'.$v['max_length'].'" ';
 			}
 			if (empty($v['can_null'])) {
 				$content .= '" >';
