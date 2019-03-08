@@ -157,8 +157,7 @@ class MenuDao extends BaseMdl
 
 		$file_path = app_path('..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'load_menu' . DIRECTORY_SEPARATOR . $model->table_name . '_auto_menu.php');
 
-		$content = '
-<?php
+		$content = '<?php
 /**
  * Created by PhpStorm.
  * User: Zjy
